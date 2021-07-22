@@ -1,28 +1,28 @@
-const {readDataSync, saveData} = require("../utility/dataHandler");
+const { readDataSync, saveData } = require("../utility/dataHandler");
+const filePath = "./data/servers.json";
 var guilds = new Map();
 
-function loadGuilds (){
-    guilds = readDataSync();
+function loadGuilds() {
+    guilds = readDataSync(filePath);
 }
 
-function saveGuilds(){
-    saveData(guilds);
+function modifyGuild(guild) {
+    guilds.set(guild.guildId, guild);
+    saveData(guilds, filePath);
+    return guild;
 }
 
-function deleteGuild(guild){
+function deleteGuild(guild) {
     guilds.delete(guild.id);
 
-    saveData(guilds);
+    saveData(guilds, filePath);
 }
 
-function createGuild(guild){
+function createGuild(guild) {
     const existing = exists(guild);
 
-    if(existing){
-        //Flush rotationChannelData
-        existing.rotationChannelData.splice(0, existing.rotationChannelData.length);
-
-        saveData(guilds);
+    if (existing) {
+        saveData(guilds, filePath);
         return existing;
     }
 
@@ -35,15 +35,53 @@ function createGuild(guild){
         userRoles: []
     };
 
+
     guilds.set(guild.id, guildData);
 
-    saveData(guilds);
+    saveData(guilds, filePath);
+
+    return guildData;
+}
+
+function getGuild(guild) {
+    var storedGuild = guilds.get(guild.id);
+
+    //Create guild if not existing in DB
+    if (!storedGuild) {
+        storedGuild = createGuild(guild);
+    }
+
+    return storedGuild;
+}
+
+function getGuildById(guildId) {
+    var storedGuild = guilds.get(guildId);
+
+    //Create guild if not existing in DB
+    if (!storedGuild) {
+        throw new Error("Guild does not exist in Database");
+    }
+
+    return storedGuild;
+}
+
+/*
+* Check if Guild exists in Database. Returns the guild data if it exists
+*/
+function exists(guild) {
+    var guildData = undefined;
+
+    if (guilds.has(guild.id)) {
+        guildData = guilds.get(guild.id);
+    }
 
     return guildData;
 }
 
 
 module.exports.loadGuilds = loadGuilds;
-module.exports.saveGuilds = saveGuilds;
+module.exports.modifyGuild = modifyGuild;
 module.exports.createGuild = createGuild;
 module.exports.deleteGuild = deleteGuild;
+module.exports.getGuild = getGuild;
+module.exports.getGuildById = getGuildById;

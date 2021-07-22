@@ -1,14 +1,16 @@
 const config = require('config');
-const {Client} = require('discord.js');
-const {logger} = require("./utility/logger");
-const {loadGuilds, createGuild, deleteGuild} = require("./guild/guildmanager");
-const WOKCommands = require('wokcommands')
+const { Client } = require('discord.js');
+const { logger } = require("./utility/logger");
+const { loadGuilds, createGuild, deleteGuild } = require("./guild/guildmanager");
+const { loadGiveaways } = require("./giveaway/giveawaymanager");
+const WOKCommands = require('wokcommands');
 const fs = require('fs');
+const { getWinners } = require("./utility/random");
 
 
 const bot = new Client({
-    messageCacheMaxSize: 100, 
-    messageCacheLifetime:	43200, 
+    messageCacheMaxSize: 100,
+    messageCacheLifetime: 43200,
     messageSweepInterval: 3600,
     messageEditHistoryMaxSize: 0,
     fetchAllMembers: false,
@@ -16,18 +18,17 @@ const bot = new Client({
     partials: ['MESSAGE', 'REACTION']
 });
 
-
 //Initialization & Login
-bot.login(config.get("token")).catch(err =>{
+bot.login(config.get("token")).catch(err => {
     logger.error("Failed to login Bot on Discord:", err);
     process.exit(1);
 });
 
 
-function init(){
+function init() {
     //check if data directory exists or create a new one
     try {
-        if(!fs.existsSync("./data")){
+        if (!fs.existsSync("./data")) {
             fs.mkdirSync("./data");
             logger.info("No data directory found, creating a new one.");
         }
@@ -35,11 +36,18 @@ function init(){
         logger.error("Failed to create a new data directory:", err);
         process.exit(1);
     }
-    
+
     try {
         loadGuilds();
     } catch (err) {
         logger.error("Failed to load guild data:", err);
+        process.exit(1);
+    }
+
+    try {
+        loadGiveaways();
+    } catch (err) {
+        logger.error("Failed to load giveaway data:", err);
         process.exit(1);
     }
 
@@ -49,9 +57,9 @@ function init(){
 }
 
 //events
-bot.on("ready", async ()=>{
+bot.on("ready", async () => {
     bot.user.setPresence({
-        status: "online", 
+        status: "online",
         activity: {
             name: "Droid TV",
             type: "WATCHING",
@@ -67,8 +75,8 @@ bot.on("ready", async ()=>{
             emoji: '🎮'
         },
         {
-            name: 'Economy',
-            emoji: '💸'
+            name: 'Misc',
+            emoji: '🏷️'
         },
         {
             // You can change the default emojis as well
@@ -86,10 +94,12 @@ bot.on("ready", async ()=>{
     init();
 });
 
-bot.on("guildCreate", async(guild)=>{
+bot.on("guildCreate", async (guild) => {
     createGuild(guild);
 });
 
-bot.on("guildDelete", async(guild)=>{
+bot.on("guildDelete", async (guild) => {
     deleteGuild(guild);
 });
+
+module.exports.bot = bot;

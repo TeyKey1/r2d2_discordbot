@@ -1,5 +1,5 @@
-const {createLogger, format, transports} = require("winston");
-const {colorize, label, printf, timestamp} = format;
+const { createLogger, format, transports } = require("winston");
+const { colorize, label, printf, timestamp } = format;
 
 //Bot logger
 var transportList = [
@@ -21,7 +21,7 @@ const consoleFormat = format.combine(
         format: "DD-MM-YYYY HH:mm:ss"
     }),
     printf(info => {
-        if(info.stack) {
+        if (info.stack) {
             return `${info.label}  ${info.timestamp}  ${info.level} : ${info.message} \n ${info.stack}`;
         }
         return `${info.label}  ${info.timestamp}  ${info.level} : ${info.message}`
@@ -48,11 +48,11 @@ const botLogger = createLogger({
 
 module.exports.logger = botLogger;
 
-//Express server logger
-/*var transportListServer = [
+//Giveaway logger
+var transportListServer = [
     new transports.File({
-        level: "warn",
-        filename: "logs/server.log",
+        level: "info",
+        filename: "logs/giveaway.log",
         format: format.json()
     })
 ];
@@ -62,13 +62,13 @@ const consoleFormatServer = format.combine(
         all: true
     }),
     label({
-        label: '[EXPRESS SERVER]'
+        label: '[GIVEAWAY]'
     }),
     timestamp({
         format: "DD-MM-YYYY HH:mm:ss"
     }),
     printf(info => {
-        if(info.stack) {
+        if (info.stack) {
             return `${info.label}  ${info.timestamp}  ${info.level} : ${info.message} \n ${info.stack}`;
         }
         return `${info.label}  ${info.timestamp}  ${info.level} : ${info.message}`
@@ -87,10 +87,10 @@ if (process.env.NODE_ENV === "development") {
     }));
 }
 
-const serverLogger = createLogger({
+const giveawayLogger = createLogger({
     level: "debug",
     transports: transportListServer,
     exitOnError: false
 });
 
-module.exports.server = serverLogger;*/
+module.exports.giveaway = giveawayLogger;

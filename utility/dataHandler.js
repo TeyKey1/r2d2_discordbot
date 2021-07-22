@@ -1,19 +1,17 @@
 const fs = require("fs");
 
-const filePath = "./data/servers.json";
-
-function saveData(data){
+function saveData(data, filePath) {
     const json = JSON.stringify([...data]);
-    fs.writeFile(filePath, json, "utf-8", (err)=>{
-        if(err){
+    fs.writeFile(filePath, json, "utf-8", (err) => {
+        if (err) {
             throw new Error("Failed to save file: " + err);
         }
     });
 }
 
-function readDataSync(){
+function readDataSync(filePath) {
     var data = new Map();
-    
+
     if (fs.existsSync(filePath)) {
         const json = fs.readFileSync(filePath, "utf-8");
         data = new Map(JSON.parse(json));
