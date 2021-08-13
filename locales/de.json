@@ -9,6 +9,7 @@
   "giveawayEndWinners": ":tada:**Giveaway beendet!** Gewinner: ",
   "giveawayEndNotification": "Giveaway wurde beendet: ",
   "spacer": "spacer",
+  "cmdGeneralError": "Hier ist etwas schief gelaufen! Befehl konnte nicht ausgeführt werden.",
   "cmdBotHello": "Beep boop. Boop Beep! \\uD83E\\uDD16 \\nIch bin wach und bereit!",
   "cmdGcreateSuccess": "Giveaway wurde erfolgreich erstellt!",
   "cmdR2D2Answers": "Ja;Das kann ich nicht beurteilen;Meine Berechnungen sagen mir was anderes;Es sieht nicht danach aus;Auf keinen Fall!;Wenn ich mir das so ansehe...\\nEher nein.;Träum weiter;Wie du wünschst;Die Wahrscheinlichkeit, dass dies korrekt ist, liegt bei 80%",

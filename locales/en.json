@@ -9,6 +9,7 @@
   "giveawayEndWinners": ":tada:**Giveaway ended!** Winners: ",
   "giveawayEndNotification": "Giveaway has ended in channel: ",
   "spacer": "spacer",
+  "cmdGeneralError": "Something went wrong! Could not execute command.",
   "cmdBotHello": "Beep boop. Boop Beep! \\uD83E\\uDD16 \\nI'm awake and ready for action!",
   "cmdGcreateSuccess": "Successfully created the giveaway!",
   "cmdR2D2Answers": "Yes;I don't know;My calculations appear to indicate the contrary;It doesn't look like it;Never!;Having a look at it...\\nProbably not.;Dream on;As you wish;The likelyness for this to occour is 80%",

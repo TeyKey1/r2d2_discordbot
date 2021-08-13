@@ -1,7 +1,7 @@
 const {MessageEmbed} = require("discord.js");
-const {checkPermission} = require("../guild/permissionmanager");
-const {translate} = require("../utility/translate");
-const {getGuild} = require("../guild/guildmanager");
+const {checkPermission} = require("../../guild/permissionmanager");
+const {translate} = require("../../utility/translate");
+const {getGuild} = require("../../guild/guildmanager");
 
 module.exports = {
     slash: true,
