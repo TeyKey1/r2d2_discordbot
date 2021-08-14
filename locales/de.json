@@ -1,7 +1,30 @@
 {
-  "cmdPermissionError": "Du hast keine Berechtigung diesen Befehl auszuführen!",
-  "cmdChangeLanguage": "Sprachprotokoll erfolgreich umkonfiguriert!",
-  "cmdChangeLanguageError": "Sprachprotokoll unbekannt. Ich kenne nur folgende Sprachen: ",
+  "commands": {
+    "errors": {
+      "permission": "Du hast keine Berechtigung diesen Befehl auszuführen!"
+    },
+    "changeLanguage": "Sprachprotokoll erfolgreich umkonfiguriert!",
+    "permissions": {
+      "list": {
+        "title": "Aktuelle Berechtigungen",
+        "description": "Hier werden alle Rollen aufgelistet, welche die Berechtigungen für die jeweilige Befehls-Kategorie besitzen.",
+        "adminRolesEmpty": "Es wurden noch keine Admin Rollen angegeben. \nAlle Benutzer mit der ADMINISTRATOR Berechtigung haben standardmässig Zugriff auf die admin Befehle.",
+        "userRolesEmpty": "Es wurden noch keine User Rollen angegeben. \nIn diesem Fall haben alle Benutzer Zugriff auf die user Befehle."
+      },
+      "admin": {
+        "addRoleExists": "Diese Rolle hat bereits die admin Berechtigung.",
+        "addRole": "Die admin Berechtigung wurde dieser Rolle erfolgreich hinzugefügt.",
+        "removeRoleNotExisting": "Diese Rolle hat keine admin Berechtigung!",
+        "removeRole": "Admin Berechtigung erfolgreich entfernt."
+      },
+      "user": {
+        "addRoleExists": "Diese Rolle hat bereits die user Berechtigung.",
+        "addRole": "Die user Berechtigung wurde dieser Rolle erfolgreich hinzugefügt.",
+        "removeRoleNotExisting": "Diese Rolle hat keine user Berechtigung!",
+        "removeRole": "User Berechtigung erfolgreich entfernt."
+      }
+    }
+  },
   "giveawayCreateReactDate": "Reagiere mit \\uD83C\\uDF81  um teilzunehmen!\\n\\n**Ende des Giveaways:** ",
   "giveawayCreateWinnerAmount": "Anzahl Gewinner: ",
   "giveawayEndCongratulations": "Gratulation!",

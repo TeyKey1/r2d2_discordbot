@@ -1,7 +1,30 @@
 {
-  "cmdPermissionError": "You have insufficient permission to execute this command!",
-  "cmdChangeLanguage": "Successfully configured new language protocol!",
-  "cmdChangeLanguageError": "Language protocol unknown. I only know following languages: ",
+  "commands": {
+    "errors": {
+      "permission": "You have insufficient permission to execute this command!"
+    },
+    "changeLanguage": "Successfully configured new language protocol!",
+    "permissions": {
+      "list": {
+        "title": "Current permission settings",
+        "description": "This list shows the current assigned roles which have access to the given command category",
+        "adminRolesEmpty": "No admin roles set. \nAll users with ADMINISTRATOR permission do have the admin permission by default.",
+        "userRolesEmpty": "No user roles set. \nIn this case all users are able to execute user commands."
+      },
+      "admin": {
+        "addRoleExists": "This role already has the admin permission.",
+        "addRole": "Successfully granted this role admin permissions.",
+        "removeRoleNotExisting": "This role does not have the admin permission!",
+        "removeRole": "Successfully denied this role admin permissions."
+      },
+      "user": {
+        "addRoleExists": "This role already has the user permission.",
+        "addRole": "Successfully granted this role user permissions.",
+        "removeRoleNotExisting": "This role does not have the user permission!",
+        "removeRole": "Successfully denied this role user permissions."
+      }
+    }
+  },
   "giveawayCreateReactDate": "React with \\uD83C\\uDF81  to enter!\\n\\n**End of giveaway:** ",
   "giveawayCreateWinnerAmount": "Amount of Winners: ",
   "giveawayEndCongratulations": "Congratulations!",

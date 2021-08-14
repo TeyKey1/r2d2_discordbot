@@ -1,10 +1,12 @@
 const config = require('config');
-const { Client, Intents, Options, LimitedCollection, Collection } = require('discord.js');
+const { Client, Intents, Options, LimitedCollection } = require('discord.js');
 const { logger } = require("./utility/logger");
 const { loadGuilds, createGuild, deleteGuild } = require("./guild/guildmanager");
 const { loadGiveaways } = require("./giveaway/giveawaymanager");
 const { getGuild } = require("./guild/guildmanager");
 const fs = require('fs');
+const {loadCommands} = require("./utility/commandLoader");
+const {deleteRole} = require("./guild/permissionmanager");
 
 
 const bot = new Client({
@@ -23,17 +25,22 @@ const bot = new Client({
     intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MESSAGE_REACTIONS]
 });
 
-//Load bot commands
-bot.commands = loadCommands();
-
 //Initialization & Login
 bot.login(config.get("token")).catch(err => {
     logger.error("Failed to login Bot on Discord:", err);
     process.exit(1);
 });
 
+async function init() {
 
-function init() {
+    //Load bot commands
+    try {
+        bot.commands = await loadCommands(bot);
+    } catch (err) {
+        logger.error("Failed to load commands: ", err);
+        process.exit(1);
+    }
+
     //check if data directory exists or create a new one
     try {
         if (!fs.existsSync("./data")) {
@@ -64,10 +71,8 @@ function init() {
 
 }
 
-
 //events
 bot.once("ready", async () => {
-
     bot.user.setPresence({ 
         status: "online",
         activities: [
@@ -80,7 +85,7 @@ bot.once("ready", async () => {
 
     logger.info("Discord JS ready");
 
-    init();
+    await init();
 });
 
 bot.on("guildCreate", async (guild) => {
@@ -89,6 +94,10 @@ bot.on("guildCreate", async (guild) => {
 
 bot.on("guildDelete", async (guild) => {
     deleteGuild(guild);
+});
+
+bot.on("roleDelete", async (role) => {
+    deleteRole(role);
 });
 
 bot.on("interactionCreate", async interaction => {
@@ -100,24 +109,11 @@ bot.on("interactionCreate", async interaction => {
     const language = storedGuild.language;
 
 	try {
-		await bot.commands.get(interaction.commandName).execute(interaction, storedGuild, language);
+		await bot.commands.get(interaction.commandName).execute({interaction, storedGuild, language});
 	} catch (error) {
 		logger.error("Failed to execute command: ", error);
 		await interaction.reply({ content: "If you see this you somehow managed to break the bot quite badly. Could not execute command.", ephemeral: true });
 	}
 });
-
-function loadCommands(){
-    var commands = new Collection();
-
-    const commandFiles = fs.readdirSync("./commands").filter(file => file.endsWith(".js"));
-
-    for (const file of commandFiles) {
-        const command = require(`./commands/${file}`);
-        commands.set(command.data.name, command);
-    }
-
-    return commands;
-}
 
 module.exports.bot = bot;

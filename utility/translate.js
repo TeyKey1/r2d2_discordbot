@@ -1,17 +1,16 @@
 const de = require("../locales/de.json");
 const en = require("../locales/en.json");
-
-const availableLanguages = ["en", "de"];
+const _ = require("lodash");
 
 function translate(lang, string){
     var locale = "";
 
     switch (lang){
       case "en":
-        locale = en[string];
+        locale = _.get(en, string, "Failed to load translation");
         break;
       case "de":
-        locale = de[string];
+        locale = _.get(de, string, "Failed to load translation");
         break;
       default:
         break;
@@ -20,14 +19,4 @@ function translate(lang, string){
     return locale;
 }
 
-function getLanguages(language){
-
-  if(availableLanguages.includes(language)){
-    return language;
-  }
-
-  return availableLanguages;
-}
-
 module.exports.translate = translate;
-module.exports.getLanguages = getLanguages;
