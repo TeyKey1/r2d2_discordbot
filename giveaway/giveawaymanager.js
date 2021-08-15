@@ -4,6 +4,7 @@ const bot = require("../index");
 const { getGuildById } = require("../guild/guildmanager");
 const { translate } = require("../utility/translate");
 const { DateTime } = require("luxon");
+const {getWinners} = require("../utility/random");
 
 const filePath = "./data/giveaways.json";
 var giveaways = new Map();
@@ -102,14 +103,24 @@ async function endGiveaway(giveawayId) {
     const message = await channel.messages.resolve(giveaway.id);
 
     //determine winner:
+    const reactions = message.reactions.cache;
+    console.log(reactions);
+    var participants = [];
+    reactions.forEach(e => {
+        if(e.emoji.toString() === "U+1F381"){
+            participants = Array.from(e.users.cache.values().username);
+        }
+    });
+    console.log(participants);
 
+    const winners = await getWinners(participants, giveaway.winners);
 
     //Send message:
     await message.reactions.removeAll();
-    await message.edit(translate(language, "giveawayEndWinners") + winners + ":tada:", createEmbedWinner(giveaway, winners, language));
+    await message.edit(translate(language, "giveaway.end.winners") + winners.join(", ") + ":tada:", createEmbedWinner(giveaway, winners, language));
 
     //Send reminder / delete giveaway
-    reminderChannel.send(translate(language, "giveawayEndNotification") + reminderChannel.toString());
+    reminderChannel.send(translate(language, "giveaway.end.notification") + reminderChannel.toString());
 
     giveaways.delete(giveawayId);
     saveData(giveaways, filePath);
@@ -118,12 +129,12 @@ async function endGiveaway(giveawayId) {
 /*
 *  Check if any of the stored giveaways is ending
 */
-function checkGiveaway() {
+async function checkGiveaway() {
     const currentTime = DateTime.now();
-    giveaways.forEach((giveaway) => {
+    giveaways.forEach(async (giveaway) => {
         if (currentTime.diff(giveaway.endDate).milliseconds >= 60000) {
             try {
-                endGiveaway(giveaway.id);
+                await endGiveaway(giveaway.id);
             } catch (error) {
 
             }
@@ -148,15 +159,15 @@ function createEmbedGiveaway(giveaway, language) {
     return new MessageEmbed()
         .setColor("#fc6203")
         .setTitle(giveaway.prize)
-        .addField(translate(language, "giveawayCreateReactDate") + giveaway.endDate.toString())
-        .setFooter(translate(language, "giveawayCreateWinnerAmount") + giveaway.winners);
+        .addField(translate(language, "giveaway.create.reactDate") + giveaway.endDate.toString())
+        .setFooter(translate(language, "giveaway.create.winnerAmount") + giveaway.winners);
 }
 
 function createEmbedWinner(giveaway, winners, language) {
     return new MessageEmbed()
         .setColor("#990099")
-        .setTitle(translate(language, "giveawayEndCongratulations"))
-        .setDescription(translate(language, "giveawayEndPrize") + giveaway.prize);
+        .setTitle(translate(language, "giveaway.end.congratulations"))
+        .setDescription(translate(language, "giveaway.end.prize") + giveaway.prize);
 }
 
 module.exports.loadGiveaways = loadGiveaways;
@@ -165,3 +176,4 @@ module.exports.createGiveaway = createGiveaway;
 module.exports.deleteGiveaway = deleteGiveaway;
 module.exports.getGiveaway = getGiveaway;
 module.exports.endGiveaway = endGiveaway;
+module.exports.checkGiveaway = checkGiveaway;

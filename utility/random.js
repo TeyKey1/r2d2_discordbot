@@ -5,7 +5,13 @@ const { giveaway } = require("../utility/logger");
 var random = new RandomOrg({ apiKey: config.get("randomOrgToken") });
 
 async function getWinners(participants, amount) {
-    giveaway.info("Starting to evaluate winners out of participants: " + participants);
+    giveaway.info(`Starting to evaluate ${amount} winners out of participants: \n${(()=>{
+        var str = "";
+        for (let i = 0; i < participants.length; i++) {
+            str += `Index: ${i} Participant: ${participants[i]}\n`
+        }
+        return str;
+    })()}`);
     const length = participants.length;
     var winners = [];
     var randomInts = [];
@@ -16,6 +22,7 @@ async function getWinners(participants, amount) {
         randomInts = response.random.data;
     } catch (err) {
         giveaway.info("Failed to fetch random numbers from random.org: ", err);
+        giveaway.info("Falling back to pseudo randomness");
 
         //Pseudo random number backup in case API does not respond
         for (var i = 0; i < amount; i++) {
@@ -29,7 +36,7 @@ async function getWinners(participants, amount) {
         }
     }
 
-    giveaway.info("Randomly generated integers: " + randomInts);
+    giveaway.info("Randomly generated integers: " + randomInts.join(", "));
 
     randomInts.forEach((num) => {
         winners.push(participants[num]);

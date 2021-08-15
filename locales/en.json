@@ -1,7 +1,11 @@
 {
   "commands": {
     "errors": {
-      "permission": "You have insufficient permission to execute this command!"
+      "permission": "You have insufficient permission to execute this command!",
+      "randomChoose": {
+        "participants": "There are not enough participants for this raffle! Specify at least two.\nMake sure you separate the names with a comma!",
+        "winnerAmount": "The specified amount of winners is invalid!\nMake sure it's not greater than the amount of participants."
+      }
     },
     "changeLanguage": "Successfully configured new language protocol!",
     "permissions": {
@@ -23,14 +27,26 @@
         "removeRoleNotExisting": "This role does not have the user permission!",
         "removeRole": "Successfully denied this role user permissions."
       }
+    },
+    "randomChoose": {
+      "title": ":slot_machine: :fast_forward: __**Initializing Randomizer**__ :rewind: :slot_machine:",
+      "description": "Amount Of Winners: ",
+      "footer": "Participants: ",
+      "winner": "__Bo Beeep! Winner(s) determined: __\n"
     }
   },
-  "giveawayCreateReactDate": "React with \\uD83C\\uDF81  to enter!\\n\\n**End of giveaway:** ",
-  "giveawayCreateWinnerAmount": "Amount of Winners: ",
-  "giveawayEndCongratulations": "Congratulations!",
-  "giveawayEndPrize": "You won: ",
-  "giveawayEndWinners": ":tada:**Giveaway ended!** Winners: ",
-  "giveawayEndNotification": "Giveaway has ended in channel: ",
+  "giveaway": {
+    "create": {
+      "reactDate": "React with \\uD83C\\uDF81  to enter!\\n\\n**End of giveaway:** ",
+      "winnerAmount": "Amount of Winners: "
+    },
+    "end": {
+      "congratulations": "Congratulations!",
+      "prize": "You won: ",
+      "winners": ":tada:**Giveaway ended!** Winners: ",
+      "notification": "Giveaway has ended in channel: "
+    }
+  },
   "spacer": "spacer",
   "cmdGeneralError": "Something went wrong! Could not execute command.",
   "cmdBotHello": "Beep boop. Boop Beep! \\uD83E\\uDD16 \\nI'm awake and ready for action!",
@@ -84,10 +100,6 @@
   "cmdGeditWinnersMessage": "Giveaway edited successfully! New amount of winners: ",
   "cmdGeditPrize": "prize",
   "cmdGeditPrizeMessage": "Giveaway edited successfully! New prize: ",
-  "randomChooseTitle": ":slot_machine: :fast_forward: __**Initializing Randomizer**__ :rewind: :slot_machine:",
-  "randomChooseDescription": "Amount Of Winners: ",
-  "randomChooseFooter": "Participants: ",
-  "randomChooseWinner": "**Bo Beeep! Winner(s) determined: **",
   "utilityMonths": "January;February;March;April;May;June;July;August;September;October;November;December",
   "utilitySplitter": "at:"
 }

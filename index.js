@@ -69,6 +69,9 @@ async function init() {
     //Start Random Org API connection
     require("./utility/random");
 
+    //Start giveaway scheduler
+    require("./giveaway/scheduler");
+
 }
 
 //events

@@ -77,7 +77,7 @@ module.exports = {
 			const embed = new MessageEmbed()
                 .setColor("#ff1100")
                 .setDescription(translate(language, "commands.errors.permission"));
-            await interaction.reply({embeds: [embed]});
+            await interaction.reply({embeds: [embed], ephemeral: true});
             return;
         }
 
@@ -107,7 +107,7 @@ async function handleAdminSubcommand({interaction, storedGuild, language}){
 				embed
 					.setColor("#FF9200")
 					.setDescription(translate(language, "commands.permissions.admin.addRoleExists"));
-				interaction.reply({embeds: [embed]});
+				interaction.reply({embeds: [embed], ephemeral: true});
 				return;
 			}
 
@@ -124,7 +124,7 @@ async function handleAdminSubcommand({interaction, storedGuild, language}){
 				embed
 					.setColor("#FF9200")
 					.setDescription(translate(language, "commands.permissions.admin.removeRoleNotExisting"));
-				interaction.reply({embeds: [embed]});
+				interaction.reply({embeds: [embed], ephemeral: true});
 				return;
 			}
 
@@ -151,7 +151,7 @@ async function handleUserSubcommand({interaction, storedGuild, language}){
 				embed
 					.setColor("#FF9200")
 					.setDescription(translate(language, "commands.permissions.user.addRoleExists"));
-				interaction.reply({embeds: [embed]});
+				interaction.reply({embeds: [embed], ephemeral: true});
 				return;
 			}
 
@@ -168,7 +168,7 @@ async function handleUserSubcommand({interaction, storedGuild, language}){
 				embed
 					.setColor("#FF9200")
 					.setDescription(translate(language, "commands.permissions.user.removeRoleNotExisting"));
-				interaction.reply({embeds: [embed]});
+				interaction.reply({embeds: [embed], ephemeral: true});
 				return;
 			}
 
@@ -202,7 +202,7 @@ async function handleListSubcommand({interaction, storedGuild, language}){
 
 					var str = "";
 					array.forEach(element => {
-						str += ":white_check_mark: :heavy_minus_sign: :heavy_minus_sign: ";
+						str += ":white_check_mark: :heavy_minus_sign: ";
 						str += `<@&${element}> \n`;
 					});
 					str += "\n ** **";
@@ -217,7 +217,7 @@ async function handleListSubcommand({interaction, storedGuild, language}){
 
 					var str = "";
 					array.forEach(element => {
-						str += ":white_check_mark: :heavy_minus_sign: :heavy_minus_sign: ";
+						str += ":white_check_mark: :heavy_minus_sign: ";
 						str += `<@&${element}> \n`;
 					});
 					return str;

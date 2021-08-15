@@ -1,7 +1,11 @@
 {
   "commands": {
     "errors": {
-      "permission": "Du hast keine Berechtigung diesen Befehl auszuführen!"
+      "permission": "Du hast keine Berechtigung diesen Befehl auszuführen!",
+      "randomChoose": {
+        "participants": "Es gibt nicht genug Teilnehmer für diese Auslosung! Gib bitte mindestens zwei Teilnehmer an.\nStelle zudem sicher, dass du die Namen mit einem Komma abtrennst.",
+        "winnerAmount": "Die Angegebene Anzahl an Gewinnern ist unzulässig!\nStelle sicher, dass diese nicht grösser als die Anzahl Teilnehmer ist."
+      }
     },
     "changeLanguage": "Sprachprotokoll erfolgreich umkonfiguriert!",
     "permissions": {
@@ -23,14 +27,26 @@
         "removeRoleNotExisting": "Diese Rolle hat keine user Berechtigung!",
         "removeRole": "User Berechtigung erfolgreich entfernt."
       }
+    },
+    "randomChoose": {
+      "title": ":slot_machine: :fast_forward: __**Initialisiere Zufallsgenerator**__ :rewind: :slot_machine:",
+      "description": "Anzahl Gewinner: ",
+      "footer": "Teilnehmer: ",
+      "winner": "**Bo Beeep! Gewinner ermittelt: **"
     }
   },
-  "giveawayCreateReactDate": "Reagiere mit \\uD83C\\uDF81  um teilzunehmen!\\n\\n**Ende des Giveaways:** ",
-  "giveawayCreateWinnerAmount": "Anzahl Gewinner: ",
-  "giveawayEndCongratulations": "Gratulation!",
-  "giveawayEndPrize": "Gewinn: ",
-  "giveawayEndWinners": ":tada:**Giveaway beendet!** Gewinner: ",
-  "giveawayEndNotification": "Giveaway wurde beendet: ",
+  "giveaway": {
+    "create": {
+      "reactDate": "Reagiere mit \\uD83C\\uDF81  um teilzunehmen!\\n\\n**Ende des Giveaways:** ",
+      "winnerAmount": "Anzahl Gewinner: "
+    },
+    "end": {
+      "congratulations": "Gratulation!",
+      "prize": "Gewinn: ",
+      "winners": ":tada:**Giveaway beendet!** Gewinner: ",
+      "notification": "Giveaway wurde beendet in Kanal: "
+    }
+  },
   "spacer": "spacer",
   "cmdGeneralError": "Hier ist etwas schief gelaufen! Befehl konnte nicht ausgeführt werden.",
   "cmdBotHello": "Beep boop. Boop Beep! \\uD83E\\uDD16 \\nIch bin wach und bereit!",
@@ -84,10 +100,6 @@
   "cmdGeditWinnersMessage": "Giveaway erfolgreich editiert! Neue Anzahl Gewinner: ",
   "cmdGeditPrize": "preis",
   "cmdGeditPrizeMessage": "Giveaway erfolgreich editiert! Neuer Preis: ",
-  "randomChooseTitle": ":slot_machine: :fast_forward: __**Initialisiere Zufallsgenerator**__ :rewind: :slot_machine:",
-  "randomChooseDescription": "Anzahl Gewinner: ",
-  "randomChooseFooter": "Teilnehmer: ",
-  "randomChooseWinner": "**Bo Beeep! Gewinner ermittelt: **",
   "utilityMonths": "Januar;Februar;März;April;Mai;Juni;Juli;August;September;Oktober;November;Dezember",
   "utilitySplitter": "um:"
 }

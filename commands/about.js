@@ -14,7 +14,7 @@ module.exports = {
             embed
                 .setColor("#ff1100")
                 .setDescription(translate(language, "commands.errors.permission"));
-            await interaction.reply({embeds: [embed]});
+            await interaction.reply({embeds: [embed], ephemeral: true});
             return;
         }
 
