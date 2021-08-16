@@ -5,6 +5,14 @@
       "randomChoose": {
         "participants": "There are not enough participants for this raffle! Specify at least two.\nMake sure you separate the names with a comma!",
         "winnerAmount": "The specified amount of winners is invalid!\nMake sure it's not greater than the amount of participants."
+      },
+      "giveaway": {
+        "create": {
+          "winnerAmount": "Please enter a valid amount of winners. At least 1.",
+          "durationAmount": "Please enter a valid duration. At least 1.",
+          "textchannel": "Specified channel for giveaway is not a textchannel",
+          "general": "Whoops. Something went wrong while creating the giveaway: "
+        }
       }
     },
     "changeLanguage": "Successfully configured new language protocol!",
@@ -33,6 +41,9 @@
       "description": "Amount Of Winners: ",
       "footer": "Participants: ",
       "winner": "__Bo Beeep! Winner(s) determined: __\n"
+    },
+    "giveaway": {
+      "success": "Successfully created the giveaway!"
     }
   },
   "giveaway": {
@@ -50,7 +61,6 @@
   "spacer": "spacer",
   "cmdGeneralError": "Something went wrong! Could not execute command.",
   "cmdBotHello": "Beep boop. Boop Beep! \\uD83E\\uDD16 \\nI'm awake and ready for action!",
-  "cmdGcreateSuccess": "Successfully created the giveaway!",
   "cmdR2D2Answers": "Yes;I don't know;My calculations appear to indicate the contrary;It doesn't look like it;Never!;Having a look at it...\\nProbably not.;Dream on;As you wish;The likelyness for this to occour is 80%",
   "cmdR2D2TeyKey": "I've seen him in AW lately. He has no clue at all.",
   "cmdR2D2TeyKeyQuestion": "Who is TeyKey",
@@ -74,9 +84,6 @@
   "cmdHelpOtherR2D2Cmd": "R2D2 question \\n",
   "cmdHelpOtherR2D2": "```css\\nAsk the droid all the important questions of life```\\n",
   "cmdErrorNotSupported": "This command is not supported for",
-  "cmdErrorGcreate": "Whoops. Something went wrong. Please make sure you entered the command correctly: `$gcreate channel duration(d/h/m) winners [prize]`",
-  "cmdErrorGcreateChannel": "Whoops. Something went wrong. The provided channel doesn't exist.",
-  "cmdErrorGcreateWinners": "Please enter a valid amount of winners. At least 1.",
   "cmdErrorGdelete": "Whoops. Something went wrong. Please make sure you entered the command correctly: `$gdelete link_to_giveaway_message`",
   "cmdErrorGdeleteMessageLink": "Please make sure you entered a correct message link.",
   "cmdErrorGedit": "Whoops. Something went wrong. Please make sure you entered the command correctly: `$gedit link_to_giveaway_message duration/winners/prize newValue`",
@@ -87,9 +94,6 @@
   "cmdErrorGeditPrize": "PLease enter a valid description of the prize within [] brackets. Emojis allowed.",
   "cmdErrorSpeak": "Whoops. Something went wrong. Please make sure you entered the command correctly: `$speak languageAbbreviation` Available Languages: en, de",
   "cmdErrorSpeakLanguage": "I can only speak en or de.",
-  "cmdErrorRandomChoose": "Whoops. Something went wrong. Please make sure you entered the command correctly: `$randomChoose winners (mention all participants here) or add a comma separated List: [participant1, participant2, ...]`",
-  "cmdErrorRandomChooseWinners": "Please enter a valid amount of winners. At least 1.",
-  "cmdErrorRandomChooseParticipants": "There are no participants. Please mention the participants: `$randomChoose winners (mention all participants here) or add a comma separated List: [participant1, participant2, ...]`",
   "giveawayEndFailure": "Beep Boop. Failure detected!",
   "giveawayEndNoParticipants": "There were no participants for the giveaway. I couldn't determine any winners :robot:",
   "giveawayDeleteSuccess": "Giveaway deleted sucessfully!",

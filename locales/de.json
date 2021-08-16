@@ -5,6 +5,14 @@
       "randomChoose": {
         "participants": "Es gibt nicht genug Teilnehmer für diese Auslosung! Gib bitte mindestens zwei Teilnehmer an.\nStelle zudem sicher, dass du die Namen mit einem Komma abtrennst.",
         "winnerAmount": "Die Angegebene Anzahl an Gewinnern ist unzulässig!\nStelle sicher, dass diese nicht grösser als die Anzahl Teilnehmer ist."
+      },
+      "giveaway": {
+        "create": {
+          "winnerAmount": "Bitte gib eine korrekte Anzahl Gewinner an. Mindestens 1.",
+          "durationAmount": "Bitte gib eine korrekte Dauer an. Mindestens 1.",
+          "textchannel": "Whoops. Hier ist etwas schief gelaufen. Der angegebene Kanal ist kein Textkanal.",
+          "general": "Whoops. Hier ist etwas schief gelaufen: "
+        }
       }
     },
     "changeLanguage": "Sprachprotokoll erfolgreich umkonfiguriert!",
@@ -33,6 +41,9 @@
       "description": "Anzahl Gewinner: ",
       "footer": "Teilnehmer: ",
       "winner": "**Bo Beeep! Gewinner ermittelt: **"
+    },
+    "giveaway": {
+      "success": "Giveaway wurde erfolgreich erstellt!"
     }
   },
   "giveaway": {
@@ -50,7 +61,6 @@
   "spacer": "spacer",
   "cmdGeneralError": "Hier ist etwas schief gelaufen! Befehl konnte nicht ausgeführt werden.",
   "cmdBotHello": "Beep boop. Boop Beep! \\uD83E\\uDD16 \\nIch bin wach und bereit!",
-  "cmdGcreateSuccess": "Giveaway wurde erfolgreich erstellt!",
   "cmdR2D2Answers": "Ja;Das kann ich nicht beurteilen;Meine Berechnungen sagen mir was anderes;Es sieht nicht danach aus;Auf keinen Fall!;Wenn ich mir das so ansehe...\\nEher nein.;Träum weiter;Wie du wünschst;Die Wahrscheinlichkeit, dass dies korrekt ist, liegt bei 80%",
   "cmdR2D2TeyKey": "Ich hab den mal in AW gesehen. Aber der hat keinen Plan.",
   "cmdR2D2TeyKeyQuestion": "Wer ist TeyKey",
@@ -74,9 +84,6 @@
   "cmdHelpOtherR2D2Cmd": "R2D2 (frage) \\n",
   "cmdHelpOtherR2D2": "```css\\nFrage den Droiden die wichtigen Fragen des Lebens```\\n",
   "cmdErrorNotSupported": "Dieser Command wird hier nicht unterstützt: ",
-  "cmdErrorGcreate": "Whoops. Hier ist etwas schief gelaufen. Bitte vergewissere dich, dass du den Command korrekt eingegeben hast: `!gcreate textkanal dauer(d/h/m) anz.gewinner [preis]`",
-  "cmdErrorGcreateChannel": "Whoops. Hier ist etwas schief gelaufen. Der angegebene Textkanal existiert nicht.",
-  "cmdErrorGcreateWinners": "Bitte gib eine korrekte Anzahl Gewinner an. Mindestens 1.",
   "cmdErrorGdelete": "Whoops. Hier ist etwas schief gelaufen. Bitte vergewissere dich, dass du den Command korrekt eingegeben hast: `!gdelete NachrichtenURL`",
   "cmdErrorGdeleteMessageLink": "Bitte vergewissere dich, dass du einen korrekten Nachrichtenlink eingegeben hast.",
   "cmdErrorGedit": "Whoops. Hier ist etwas schief gelaufen. Bitte vergewissere dich, dass du den Command korrekt eingegeben hast: `$gedit NachrichtenURL dauer/gewinner/preis neuerWert`",
@@ -87,9 +94,6 @@
   "cmdErrorGeditPrize": "Bitte beschreibe den Preis innerhalb der [] Klammern. Emojis erlaubt.",
   "cmdErrorSpeak": "Whoops. Hier ist etwas schief gelaufen. Bitte vergewissere dich, dass du den Command korrekt eingegeben hast: `!speak Sprachkürzel` Verfügbare Sprachen: en, de",
   "cmdErrorSpeakLanguage": "Ich kann nur en oder de sprechen.",
-  "cmdErrorRandomChoose": "Whoops. Hier ist etwas schief gelaufen. Bitte vergewissere dich, dass du den Command korrekt eingegeben hast: `$randomChoose anz.gewinner (erw�hne alle Teilnehmer hier) oder benutze eine komma-separierte Liste: [teilnehmer1, teilnehmer2, ...]`",
-  "cmdErrorRandomChooseWinners": "Bitte gib eine korrekte Anzahl Gewinner an. Mindestens 1.",
-  "cmdErrorRandomChooseParticipants": "Es gibt keine Teilnehmer. Bitte erwähne alle Teilnehmer: `$randomChoose anz.gewinner (erw�hne alle Teilnehmer hier) oder benutze eine komma-separierte Liste: [teilnehmer1, teilnehmer2, ...]`",
   "giveawayEndFailure": "Beep Boop. Fehler detektiert!",
   "giveawayEndNoParticipants": "Es gab keine Teilnehmer für dieses Giveaway. Ich konnte keinen Gewinner errechnen :robot:",
   "giveawayDeleteSuccess": "Giveaway erfolgreich gelöscht!",

@@ -56,7 +56,7 @@ module.exports = {
         embed
             .setColor("#1CACE5")
             .setTitle(translate(language, "commands.randomChoose.title"))
-            .setDescription("```fix\n" + translate(language, "commands.randomChoose.description") + winnerAmount +"```")
+            .setDescription("```ml\n" + translate(language, "commands.randomChoose.description") + winnerAmount +"```")
             .setFooter(translate(language, "commands.randomChoose.footer") + participants.length);
 
         const winnerEmbed = new MessageEmbed()

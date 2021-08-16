@@ -66,6 +66,8 @@ async function createGiveaway(giveaway, guild, language) {
 
     const message = await channel.send(":regional_indicator_g: :regional_indicator_i: :regional_indicator_v: :regional_indicator_e: :regional_indicator_a: :regional_indicator_w: :regional_indicator_a: :regional_indicator_y:", embed);
     await message.react("U+1F381");
+    
+    giveaway.id = message.id;
 
     giveaways.set(giveaway.id, giveaway);
 
