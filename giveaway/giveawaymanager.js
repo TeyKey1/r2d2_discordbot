@@ -4,7 +4,8 @@ const bot = require("../index");
 const { getGuildById } = require("../guild/guildmanager");
 const { translate } = require("../utility/translate");
 const { DateTime } = require("luxon");
-const {getWinners} = require("../utility/random");
+const { getWinners } = require("../utility/random");
+const { giveaway: logger } = require("../utility/logger");
 
 const filePath = "./data/giveaways.json";
 var giveaways = new Map();
@@ -66,7 +67,7 @@ async function createGiveaway(giveaway, guild, language) {
 
     const message = await channel.send(":regional_indicator_g: :regional_indicator_i: :regional_indicator_v: :regional_indicator_e: :regional_indicator_a: :regional_indicator_w: :regional_indicator_a: :regional_indicator_y:", embed);
     await message.react("U+1F381");
-    
+
     giveaway.id = message.id;
 
     giveaways.set(giveaway.id, giveaway);
@@ -109,7 +110,7 @@ async function endGiveaway(giveawayId) {
     console.log(reactions);
     var participants = [];
     reactions.forEach(e => {
-        if(e.emoji.toString() === "U+1F381"){
+        if (e.emoji.toString() === "U+1F381") {
             participants = Array.from(e.users.cache.values().username);
         }
     });
@@ -134,11 +135,11 @@ async function endGiveaway(giveawayId) {
 async function checkGiveaway() {
     const currentTime = DateTime.now();
     giveaways.forEach(async (giveaway) => {
-        if (currentTime.diff(giveaway.endDate).milliseconds >= 60000) {
+        if (currentTime.diff(DateTime.fromISO(giveaway.endDate)).milliseconds >= 60000) {
             try {
                 await endGiveaway(giveaway.id);
             } catch (error) {
-
+                logger.error("Failed to end giveaway: ", error);
             }
         }
     });

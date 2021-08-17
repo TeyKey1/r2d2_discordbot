@@ -3,6 +3,7 @@ const { MessageEmbed } = require("discord.js");
 const { giveaway } = require("../utility/logger");
 const { checkPermission } = require("../guild/permissionmanager");
 const { translate } = require("../utility/translate");
+const { Duration, DateTime } = require("luxon");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -30,10 +31,10 @@ module.exports = {
                         .setDescription("Unit of the specified duration")
                         .setRequired(true)
                         .addChoices([
-                            ["minutes", "m"],
-                            ["hours", "h"],
-                            ["days", "d"],
-                            ["weeks", "w"],
+                            ["minutes", "minutes"],
+                            ["hours", "hours"],
+                            ["days", "days"],
+                            ["weeks", "weeks"],
                         ]),
                 )
                 .addIntegerOption((option) =>
@@ -132,24 +133,26 @@ async function handleCreateSubcommand({ interaction, language }) {
     var embed = new MessageEmbed();
     const guild = interaction.guild;
     const winnerAmount = validateIntegerAmount(interaction.options.getInteger("winners", true));
-    const duration = validateIntegerAmount(interaction.options.getInteger("duration", true));
+    const durationAmount = validateIntegerAmount(interaction.options.getInteger("duration", true));
 
-    if(!winnerAmount){
+    if (!winnerAmount) {
         embed
             .setColor("#FF9200")
             .setDescription(translate(language, "commands.errors.giveaway.create.winnerAmount"));
-        await interaction.reply({embeds:[embed], ephemeral: true});
+        await interaction.reply({ embeds: [embed], ephemeral: true });
         return;
-    }else if(!duration){
+    } else if (!durationAmount) {
         embed
             .setColor("#FF9200")
             .setDescription(translate(language, "commands.errors.giveaway.create.durationAmount"));
-        await interaction.reply({embeds:[embed], ephemeral: true});
+        await interaction.reply({ embeds: [embed], ephemeral: true });
         return;
     }
 
     //calculate end date:
-
+    var obj = {};
+    obj[interaction.options.getString("durationunit", true)] = durationAmount;
+    const endDate = DateTime.now().plus(Duration.fromObject(obj));
 
     const giveaway = {
         id: "",
@@ -158,29 +161,29 @@ async function handleCreateSubcommand({ interaction, language }) {
         reminderChannel: interaction.channelId,
         prize: interaction.options.getString("prize", true),
         winners: winnerAmount,
-        endDate: endDate
+        endDate: endDate.toISO()
     }
 
     try {
         await createGiveaway(giveaway, guild, language);
     } catch (error) {
-        if(error.message === "Channel is not a textchannel"){
+        if (error.message === "Channel is not a textchannel") {
             embed
                 .setColor("#FF9200")
                 .setDescription(translate(language, "commands.errors.giveaway.create.textChannel"));
-            await interaction.reply({embeds:[embed], ephemeral: true});
-        }else{
+            await interaction.reply({ embeds: [embed], ephemeral: true });
+        } else {
             embed
                 .setColor("#FF9200")
                 .setDescription(translate(language, "commands.errors.giveaway.create.general") + error.message);
-            await interaction.reply({embeds:[embed], ephemeral: true});
+            await interaction.reply({ embeds: [embed], ephemeral: true });
         }
     }
 
     embed
         .setColor("#0aa12d")
         .setDescription(translate(language, "commands.giveaway.create.success"));
-    await interaction.reply({embeds:[embed]});
+    await interaction.reply({ embeds: [embed] });
 }
 
 async function handleModifySubcommand({ interaction, storedGuild, language }) {
@@ -192,8 +195,8 @@ async function handleDeleteSubcommand({ interaction, storedGuild, language }) {
 }
 
 
-function validateIntegerAmount(integerAmount){
-    if(integerAmount == 0){
+function validateIntegerAmount(integerAmount) {
+    if (integerAmount == 0) {
         return undefined;
     }
     return Math.abs(integerAmount);

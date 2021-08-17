@@ -49,7 +49,7 @@ const botLogger = createLogger({
 module.exports.logger = botLogger;
 
 //Giveaway logger
-var transportListServer = [
+var transportListGiveaway = [
     new transports.File({
         level: "info",
         filename: "logs/giveaway.log",
@@ -57,7 +57,7 @@ var transportListServer = [
     })
 ];
 
-const consoleFormatServer = format.combine(
+const consoleFormatGiveaway = format.combine(
     colorize({
         all: true
     }),
@@ -76,20 +76,20 @@ const consoleFormatServer = format.combine(
 );
 
 if (process.env.NODE_ENV === "development") {
-    transportListServer.push(new transports.Console({
+    transportListGiveaway.push(new transports.Console({
         level: "debug",
-        format: consoleFormatServer
+        format: consoleFormatGiveaway
     }));
 } else {
-    transportListServer.push(new transports.Console({
+    transportListGiveaway.push(new transports.Console({
         level: "info",
-        format: consoleFormatServer
+        format: consoleFormatGiveaway
     }));
 }
 
 const giveawayLogger = createLogger({
     level: "debug",
-    transports: transportListServer,
+    transports: transportListGiveaway,
     exitOnError: false
 });
 
