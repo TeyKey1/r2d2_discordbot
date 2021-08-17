@@ -43,12 +43,14 @@
       "winner": "__Bo Beeep! Winner(s) determined: __\n"
     },
     "giveaway": {
-      "success": "Successfully created the giveaway!"
+      "create": {
+        "success": "Successfully created the giveaway!"
+      }
     }
   },
   "giveaway": {
     "create": {
-      "reactDate": "React with \\uD83C\\uDF81  to enter!\\n\\n**End of giveaway:** ",
+      "reactDate": "React with :gift: to enter!\n\n**End of giveaway:** ",
       "winnerAmount": "Amount of Winners: "
     },
     "end": {

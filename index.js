@@ -5,8 +5,8 @@ const { loadGuilds, createGuild, deleteGuild } = require("./guild/guildmanager")
 const { loadGiveaways } = require("./giveaway/giveawaymanager");
 const { getGuild } = require("./guild/guildmanager");
 const fs = require('fs');
-const {loadCommands} = require("./utility/commandLoader");
-const {deleteRole} = require("./guild/permissionmanager");
+const { loadCommands } = require("./utility/commandLoader");
+const { deleteRole } = require("./guild/permissionmanager");
 
 
 const bot = new Client({
@@ -15,8 +15,8 @@ const bot = new Client({
         ThreadManager: {
             sweepInterval: 3600,
             sweepFilter: LimitedCollection.filterByLifetime({
-              getComparisonTimestamp: e => e.archiveTimestamp,
-              excludeFromSweep: e => !e.archived,
+                getComparisonTimestamp: e => e.archiveTimestamp,
+                excludeFromSweep: e => !e.archived,
             })
         }
     }),
@@ -76,7 +76,7 @@ async function init() {
 
 //events
 bot.once("ready", async () => {
-    bot.user.setPresence({ 
+    bot.user.setPresence({
         status: "online",
         activities: [
             {
@@ -104,19 +104,23 @@ bot.on("roleDelete", async (role) => {
 });
 
 bot.on("interactionCreate", async interaction => {
-	if (!interaction.isCommand()) return;
+    if (!interaction.isCommand()) return;
 
-	if (!bot.commands.has(interaction.commandName)) return;
+    if (!bot.commands.has(interaction.commandName)) return;
 
     const storedGuild = getGuild(interaction.guild);
     const language = storedGuild.language;
 
-	try {
-		await bot.commands.get(interaction.commandName).execute({interaction, storedGuild, language});
-	} catch (error) {
-		logger.error("Failed to execute command: ", error);
-		await interaction.reply({ content: "If you see this you somehow managed to break the bot quite badly. Could not execute command.", ephemeral: true });
-	}
+    try {
+        await bot.commands.get(interaction.commandName).execute({ interaction, storedGuild, language });
+    } catch (error) {
+        logger.error("Failed to execute command: ", error);
+        await interaction.reply({ content: "If you see this you somehow managed to break the bot quite badly. Could not execute command.", ephemeral: true });
+    }
 });
 
+process.on('unhandledRejection', function (reason, p) {
+    console.log("Possibly Unhandled Rejection at: Promise ", p, " reason: ", reason);
+    // application specific logging here
+});
 module.exports.bot = bot;

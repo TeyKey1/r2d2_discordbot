@@ -65,8 +65,8 @@ async function createGiveaway(giveaway, guild, language) {
 
     const embed = createEmbedGiveaway(giveaway, language);
 
-    const message = await channel.send(":regional_indicator_g: :regional_indicator_i: :regional_indicator_v: :regional_indicator_e: :regional_indicator_a: :regional_indicator_w: :regional_indicator_a: :regional_indicator_y:", embed);
-    await message.react("U+1F381");
+    const message = await channel.send({ content: ":regional_indicator_g: :regional_indicator_i: :regional_indicator_v: :regional_indicator_e: :regional_indicator_a: :regional_indicator_w: :regional_indicator_a: :regional_indicator_y:", embeds: [embed] });
+    await message.react("🎁");
 
     giveaway.id = message.id;
 
@@ -90,9 +90,10 @@ function getGiveaway(giveawayId) {
 
 async function endGiveaway(giveawayId) {
     const giveaway = getGiveaway(giveawayId);
+    var storedGuild = undefined;
 
     try {
-        const storedGuild = getGuildById(giveaway.guild);
+        storedGuild = getGuildById(giveaway.guild);
     } catch (err) {
         giveaways.delete(giveawayId);
         saveData(giveaways, filePath);
@@ -110,7 +111,7 @@ async function endGiveaway(giveawayId) {
     console.log(reactions);
     var participants = [];
     reactions.forEach(e => {
-        if (e.emoji.toString() === "U+1F381") {
+        if (e.emoji.toString() === "🎁") {
             participants = Array.from(e.users.cache.values().username);
         }
     });
@@ -162,7 +163,7 @@ function createEmbedGiveaway(giveaway, language) {
     return new MessageEmbed()
         .setColor("#fc6203")
         .setTitle(giveaway.prize)
-        .addField(translate(language, "giveaway.create.reactDate") + giveaway.endDate.toString())
+        .setDescription(translate(language, "giveaway.create.reactDate") + giveaway.endDate.toString())
         .setFooter(translate(language, "giveaway.create.winnerAmount") + giveaway.winners);
 }
 

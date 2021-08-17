@@ -43,12 +43,14 @@
       "winner": "**Bo Beeep! Gewinner ermittelt: **"
     },
     "giveaway": {
-      "success": "Giveaway wurde erfolgreich erstellt!"
+      "create": {
+        "success": "Giveaway wurde erfolgreich erstellt!"
+      }
     }
   },
   "giveaway": {
     "create": {
-      "reactDate": "Reagiere mit \\uD83C\\uDF81  um teilzunehmen!\\n\\n**Ende des Giveaways:** ",
+      "reactDate": "Reagiere mit :gift: um teilzunehmen!\n\n**Ende des Giveaways:** ",
       "winnerAmount": "Anzahl Gewinner: "
     },
     "end": {

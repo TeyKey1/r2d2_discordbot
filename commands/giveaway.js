@@ -4,6 +4,8 @@ const { giveaway } = require("../utility/logger");
 const { checkPermission } = require("../guild/permissionmanager");
 const { translate } = require("../utility/translate");
 const { Duration, DateTime } = require("luxon");
+const { createGiveaway } = require("../giveaway/giveawaymanager");
+const { logger } = require("../utility/logger");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -113,7 +115,7 @@ module.exports = {
             return;
         }
 
-        switch (interaction.options.getSubcommandGroup()) {
+        switch (interaction.options.getSubcommand()) {
             case "create":
                 await handleCreateSubcommand({ interaction, language });
                 break;
@@ -156,7 +158,7 @@ async function handleCreateSubcommand({ interaction, language }) {
 
     const giveaway = {
         id: "",
-        channel: interaction.options.getChannel("channel", true),
+        channel: interaction.options.getChannel("channel", true).id,
         guild: guild.id,
         reminderChannel: interaction.channelId,
         prize: interaction.options.getString("prize", true),
@@ -172,11 +174,14 @@ async function handleCreateSubcommand({ interaction, language }) {
                 .setColor("#FF9200")
                 .setDescription(translate(language, "commands.errors.giveaway.create.textChannel"));
             await interaction.reply({ embeds: [embed], ephemeral: true });
+            return;
         } else {
+            logger.error("Failed to create giveaway: ", error);
             embed
                 .setColor("#FF9200")
                 .setDescription(translate(language, "commands.errors.giveaway.create.general") + error.message);
             await interaction.reply({ embeds: [embed], ephemeral: true });
+            return;
         }
     }
 
