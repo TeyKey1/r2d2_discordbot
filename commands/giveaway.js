@@ -4,8 +4,9 @@ const { giveaway } = require("../utility/logger");
 const { checkPermission } = require("../guild/permissionmanager");
 const { translate } = require("../utility/translate");
 const { Duration, DateTime } = require("luxon");
-const { createGiveaway } = require("../giveaway/giveawaymanager");
+const { createGiveaway, getGiveawayList, deleteGiveaway } = require("../giveaway/giveawaymanager");
 const { logger } = require("../utility/logger");
+const { parseDiscordMessageLink } = require("../utility/parser");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -58,8 +59,8 @@ module.exports = {
                 .setDescription("Modifies an existing giveaway")
                 .addStringOption((option) =>
                     option
-                        .setName("messageurl")
-                        .setDescription("The url of the giveaway message you want to edit")
+                        .setName("url_or_id")
+                        .setDescription("The url of the giveaway message or the id of the giveaway (/giveaways list), you want to edit")
                         .setRequired(true),
                 )
                 .addIntegerOption((option) =>
@@ -99,10 +100,15 @@ module.exports = {
                 .setDescription("Deletes a giveaway")
                 .addStringOption((option) =>
                     option
-                        .setName("messageurl")
-                        .setDescription("The url of the giveaway message you want to delete")
+                        .setName("url_or_id")
+                        .setDescription("The url of the giveaway message or the id of the giveaway (/giveaways list), you want to delete")
                         .setRequired(true),
                 ),
+        )
+        .addSubcommand((subcommand) =>
+            subcommand
+                .setName("list")
+                .setDescription("Lists all active giveaways and their id's on this server"),
         ),
     async execute({ interaction, storedGuild, language }) {
         var embed = new MessageEmbed();
@@ -124,6 +130,9 @@ module.exports = {
                 break;
             case "delete":
                 await handleDeleteSubcommand({ interaction, storedGuild, language });
+                break;
+            case "list":
+                await handleListSubcommand({ interaction, storedGuild, language });
                 break;
             default:
                 throw new Error("Specified subcommand group does not exist");
@@ -195,14 +204,83 @@ async function handleModifySubcommand({ interaction, storedGuild, language }) {
 
 }
 
-async function handleDeleteSubcommand({ interaction, storedGuild, language }) {
+async function handleDeleteSubcommand({ interaction, language }) {
+    var embed = new MessageEmbed;
+    const giveawayId = getGiveawayId(interaction.options.getString("url_or_id", true));
 
+    if (!giveawayId) {
+        embed
+            .setColor("#FF9200")
+            .setDescription(translate(language, "commands.errors.giveaway.delete.invalidArgument"));
+        await interaction.reply({ embeds: [embed], ephemeral: true });
+        return;
+    }
+    try {
+        console.log(giveawayId);
+        await deleteGiveaway(giveawayId, interaction.guild);
+    } catch (error) {
+        if (error.message === "Unauthorized" || error.message == "Failed to find Giveaway") {
+            embed
+                .setColor("#FF9200")
+                .setDescription(translate(language, "commands.errors.giveaway.delete.notFound"));
+            await interaction.reply({ embeds: [embed], ephemeral: true });
+            return;
+        } else {
+            embed
+                .setColor("#FF9200")
+                .setDescription(translate(language, "commands.errors.giveaway.delete.general") + error);
+            await interaction.reply({ embeds: [embed], ephemeral: true });
+            return;
+        }
+    }
+
+    embed
+        .setColor("#0aa12d")
+        .setDescription(translate(language, "commands.giveaway.delete.success"));
+    await interaction.reply({ embeds: [embed] });
 }
 
+async function handleListSubcommand({ interaction, language }) {
+    const giveaways = getGiveawayList(interaction.guild);
+    var embed = new MessageEmbed()
+        .setColor("#1CACE5")
+        .setTitle(translate(language, "commands.giveaway.list.title"));
+
+    if (giveaways.length == 0) {
+        embed.setDescription(translate(language, "commands.giveaway.list.empty"));
+        interaction.reply({ embeds: [embed] });
+        return;
+    }
+
+    embed.setDescription(translate(language, "commands.giveaway.list.description"));
+
+    giveaways.forEach(giveaway => {
+        embed.addField(giveaway.id, `***${translate(language, "commands.giveaway.list.channel")}*** <#${giveaway.channel}> ***${translate(language, "commands.giveaway.list.end")}*** ${DateTime.fromISO(giveaway.endDate).toFormat(`dd.MM.yyyy `) + translate(language, "giveaway.create.dateConnector") + DateTime.fromISO(giveaway.endDate).toFormat(` HH:mm`)}\n***${translate(language, "commands.giveaway.list.prize")}*** ${giveaway.prize}`);
+    });
+
+    interaction.reply({ embeds: [embed] });
+}
 
 function validateIntegerAmount(integerAmount) {
     if (integerAmount == 0) {
         return undefined;
     }
     return Math.abs(integerAmount);
+}
+
+function getGiveawayId(string) {
+    string.trim();
+
+    if (string.length > 18) {
+        const result = parseDiscordMessageLink(string);
+        if (result) {
+            return result.messageId;
+        }
+        return undefined;
+    } else {
+        if (parseInt(string) === NaN) {
+            return undefined;
+        }
+        return string;
+    }
 }

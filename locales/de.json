@@ -12,6 +12,11 @@
           "durationAmount": "Bitte gib eine korrekte Dauer an. Mindestens 1.",
           "textchannel": "Whoops. Hier ist etwas schief gelaufen. Der angegebene Kanal ist kein Textkanal.",
           "general": "Whoops. Hier ist etwas schief gelaufen: "
+        },
+        "delete": {
+          "invalidArgument": "Der Angegebene link oder Giveaway ID ist nicht korrekt.",
+          "notFound": "Das angegebene Giveaway konnte nicht gefunden werden. Vergewissere dich, dass du die korrekte url/ID angegeben hast.",
+          "general": "Whoops. Hier ist etwas schief gelaufen: "
         }
       }
     },
@@ -45,19 +50,35 @@
     "giveaway": {
       "create": {
         "success": "Giveaway wurde erfolgreich erstellt!"
+      },
+      "list": {
+        "title": "Aktive Giveaways:",
+        "empty": "Es gibt momentan keine aktiven Giveaways auf diesem Server. Du kannst eines mit /giveaway erstellen.",
+        "description": "Hier werden alle Giveaways aufgelistet. Der Titel ist jeweils die ID des Giveaways.",
+        "channel": "Kanal:",
+        "end": "Endet am:",
+        "prize": "Preis:"
+      },
+      "delete": {
+        "success": "Giveaway wurde erfolgreich gelöscht!"
       }
     }
   },
   "giveaway": {
     "create": {
       "reactDate": "Reagiere mit :gift: um teilzunehmen!\n\n**Ende des Giveaways:** ",
-      "winnerAmount": "Anzahl Gewinner: "
+      "winnerAmount": "Anzahl Gewinner: ",
+      "prize": "**Preis:** ",
+      "dateConnector": "um"
     },
     "end": {
       "congratulations": "Gratulation!",
       "prize": "Gewinn: ",
       "winners": ":tada:**Giveaway beendet!** Gewinner: ",
-      "notification": "Giveaway wurde beendet in Kanal: "
+      "notification": "Giveaway wurde beendet in Kanal: ",
+      "notificationFailed": "Giveaway konnte nicht erfolgreich beendet werden, aufgrund von zu wenigen Teilnehmern: ",
+      "failedTitle": "Hier ist etwas schiefgelaufen!",
+      "failedDescription": "Das Giveaway konnte nicht erfolgreich beendet werden, da es zu wenige Teilnehmer gab."
     }
   },
   "spacer": "spacer",

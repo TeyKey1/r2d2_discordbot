@@ -5,10 +5,10 @@ const { giveaway } = require("../utility/logger");
 var random = new RandomOrg({ apiKey: config.get("randomOrgToken") });
 
 async function getWinners(participants, amount) {
-    giveaway.info(`Starting to evaluate ${amount} winners out of participants: \n${(()=>{
+    giveaway.info(`Starting to evaluate ${amount} winners out of participants: ${(() => {
         var str = "";
         for (let i = 0; i < participants.length; i++) {
-            str += `Index: ${i} Participant: ${participants[i]}\n`
+            str += `\nIndex: ${i} Participant: ${participants[i].username}`
         }
         return str;
     })()}`);
@@ -42,7 +42,7 @@ async function getWinners(participants, amount) {
         winners.push(participants[num]);
     });
 
-    giveaway.info("Winners of this giveaway: " + winners);
+    giveaway.info("Winners of this giveaway: " + winners.map(winner => winner.username).join(", "));
 
     return winners;
 }

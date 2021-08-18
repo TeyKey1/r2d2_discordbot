@@ -7,6 +7,7 @@ const { getGuild } = require("./guild/guildmanager");
 const fs = require('fs');
 const { loadCommands } = require("./utility/commandLoader");
 const { deleteRole } = require("./guild/permissionmanager");
+const { scheduleGiveaways } = require("./giveaway/scheduler");
 
 
 const bot = new Client({
@@ -70,7 +71,7 @@ async function init() {
     require("./utility/random");
 
     //Start giveaway scheduler
-    require("./giveaway/scheduler");
+    scheduleGiveaways(bot);
 
 }
 
@@ -123,4 +124,3 @@ process.on('unhandledRejection', function (reason, p) {
     console.log("Possibly Unhandled Rejection at: Promise ", p, " reason: ", reason);
     // application specific logging here
 });
-module.exports.bot = bot;

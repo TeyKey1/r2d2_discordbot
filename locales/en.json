@@ -12,6 +12,11 @@
           "durationAmount": "Please enter a valid duration. At least 1.",
           "textchannel": "Specified channel for giveaway is not a textchannel",
           "general": "Whoops. Something went wrong while creating the giveaway: "
+        },
+        "delete": {
+          "invalidArgument": "The given message link or giveaway ID is invalid.",
+          "notFound": "The specified giveaway was not found. Please make sure that you provided a valid url/ID.",
+          "general": "Whoops. Hier ist etwas schief gelaufen: "
         }
       }
     },
@@ -45,19 +50,35 @@
     "giveaway": {
       "create": {
         "success": "Successfully created the giveaway!"
+      },
+      "list": {
+        "title": "Active Giveaways:",
+        "empty": "There are no active giveaways on this server. You can create one by typing /giveaway.",
+        "description": "All active giveaways are listed here. Each title represents the ID of the corresponding giveaway.",
+        "channel": "Channel:",
+        "end": "Ends:",
+        "prize": "Prize:"
+      },
+      "delete": {
+        "success": "Successfully deleted the giveaway!"
       }
     }
   },
   "giveaway": {
     "create": {
       "reactDate": "React with :gift: to enter!\n\n**End of giveaway:** ",
-      "winnerAmount": "Amount of Winners: "
+      "winnerAmount": "Amount of Winners: ",
+      "prize": "**Prize:** ",
+      "dateConnector": "at"
     },
     "end": {
       "congratulations": "Congratulations!",
       "prize": "You won: ",
       "winners": ":tada:**Giveaway ended!** Winners: ",
-      "notification": "Giveaway has ended in channel: "
+      "notification": "Giveaway has ended in channel: ",
+      "notificationFailed": "Giveaway did not end successfully, due to too little participants: ",
+      "failedTitle": "Something went wrong!",
+      "failedDescription": "The giveaway could not be eneded successfully, due to too little participants."
     }
   },
   "spacer": "spacer",
