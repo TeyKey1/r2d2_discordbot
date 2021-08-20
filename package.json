@@ -5,11 +5,12 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "set NODE_ENV=production&& node index.js",
     "dev": "set NODE_ENV=development&& node index.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://teygaming.com:9003/TeyKey1/R2D2_DiscordJS.git"
+    "url": "https://github.com/TeyKey1/r2d2_discordbot.git"
   },
   "author": "TeyKey1",
   "license": "MIT",

@@ -4,17 +4,17 @@ const { checkPermission } = require("../guild/permissionmanager");
 const { translate } = require("../utility/translate");
 
 module.exports = {
-	data: new SlashCommandBuilder()
-		.setName("about")
-		.setDescription("Shows R2D2 about page"),
-	async execute({interaction, storedGuild, language}) {
+    data: new SlashCommandBuilder()
+        .setName("about")
+        .setDescription("Shows R2D2 about page"),
+    async execute({ interaction, storedGuild, language }) {
         var embed = new MessageEmbed();
-      
+
         if (!checkPermission("user", interaction.member, storedGuild)) {
             embed
                 .setColor("#ff1100")
                 .setDescription(translate(language, "commands.errors.permission"));
-            await interaction.reply({embeds: [embed], ephemeral: true});
+            await interaction.reply({ embeds: [embed], ephemeral: true });
             return;
         }
 
@@ -24,8 +24,8 @@ module.exports = {
             .addField("Droid version:", `${process.pid}`)
             .addField("Developer", "TeyKey1")
             .addField("Version:", `${process.env.npm_package_version}`)
-            .addField("Gitbhub:", "Unavailable");
+            .addField("Gitbhub:", "https://github.com/TeyKey1/r2d2_discordbot");
 
-        await interaction.reply({embeds: [embed]});
-	},
+        await interaction.reply({ embeds: [embed] });
+    },
 };
