@@ -4,9 +4,10 @@ const { giveaway } = require("../utility/logger");
 const { checkPermission } = require("../guild/permissionmanager");
 const { translate } = require("../utility/translate");
 const { Duration, DateTime } = require("luxon");
-const { createGiveaway, getGiveawayList, deleteGiveaway } = require("../giveaway/giveawaymanager");
+const { createGiveaway, getGiveawayList, deleteGiveaway, modifyGiveaway, getGiveaway } = require("../giveaway/giveawaymanager");
 const { logger } = require("../utility/logger");
 const { parseDiscordMessageLink } = require("../utility/parser");
+const { xor } = require("lodash");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -75,10 +76,10 @@ module.exports = {
                         .setDescription("New of the specified duration")
                         .setRequired(false)
                         .addChoices([
-                            ["minutes", "m"],
-                            ["hours", "h"],
-                            ["days", "d"],
-                            ["weeks", "w"],
+                            ["minutes", "minutes"],
+                            ["hours", "hours"],
+                            ["days", "days"],
+                            ["weeks", "weeks"],
                         ]),
                 )
                 .addIntegerOption((option) =>
@@ -201,7 +202,82 @@ async function handleCreateSubcommand({ interaction, language }) {
 }
 
 async function handleModifySubcommand({ interaction, storedGuild, language }) {
+    var embed = new MessageEmbed;
+    const giveawayId = getGiveawayId(interaction.options.getString("url_or_id", true));
 
+    if (!giveawayId) {
+        embed
+            .setColor("#FF9200")
+            .setDescription(translate(language, "commands.errors.giveaway.modify.invalidArgument"));
+        await interaction.reply({ embeds: [embed], ephemeral: true });
+        return;
+    }
+
+    const modifiedPrize = interaction.options.getString("prize", false);
+    const modifiedWinnerAmount = interaction.options.getInteger("winners", false);
+    const modifiedDurationAmount = interaction.options.getInteger("duration", false) ? validateIntegerAmount(interaction.options.getInteger("duration", false)) : null;
+    const modifiedDurationUnit = interaction.options.getString("durationunit", false);
+
+    if ((modifiedDurationAmount && !modifiedDurationUnit) || (!modifiedDurationAmount && modifiedDurationUnit)) {
+        embed
+            .setColor("#FF9200")
+            .setDescription(translate(language, "commands.errors.giveaway.modify.invalidDuration"));
+        await interaction.reply({ embeds: [embed], ephemeral: true });
+        return;
+    }
+
+    var endDate = undefined;
+    if (modifiedDurationAmount && modifiedDurationUnit) {
+        //calculate new end date:
+        var obj = {};
+        obj[modifiedDurationUnit] = modifiedDurationAmount;
+        endDate = DateTime.now().plus(Duration.fromObject(obj));
+    }
+
+    try {
+        const oldGiveaway = getGiveaway(giveawayId);
+
+        const winnerAmount = modifiedWinnerAmount ? validateIntegerAmount(modifiedWinnerAmount) : oldGiveaway.winners;
+
+        if (!winnerAmount) {
+            embed
+                .setColor("#FF9200")
+                .setDescription(translate(language, "commands.errors.giveaway.modify.winnerAmount"));
+            await interaction.reply({ embeds: [embed], ephemeral: true });
+            return;
+        }
+
+        const newGiveaway = {
+            id: oldGiveaway.id,
+            channel: oldGiveaway.channel,
+            guild: oldGiveaway.guild,
+            reminderChannel: oldGiveaway.reminderChannel,
+            prize: modifiedPrize ? modifiedPrize : oldGiveaway.prize,
+            winners: winnerAmount,
+            endDate: endDate ? endDate.toISO() : oldGiveaway.endDate
+        }
+
+        await modifyGiveaway(newGiveaway, interaction.guild, language);
+    } catch (error) {
+        if (error.message === "Unauthorized" || error.message == "Failed to find Giveaway") {
+            embed
+                .setColor("#FF9200")
+                .setDescription(translate(language, "commands.errors.giveaway.modify.notFound"));
+            await interaction.reply({ embeds: [embed], ephemeral: true });
+            return;
+        } else {
+            embed
+                .setColor("#FF9200")
+                .setDescription(translate(language, "commands.errors.giveaway.modify.general") + error);
+            await interaction.reply({ embeds: [embed], ephemeral: true });
+            return;
+        }
+    }
+
+    embed
+        .setColor("#0aa12d")
+        .setDescription(translate(language, "commands.giveaway.modify.success"));
+    await interaction.reply({ embeds: [embed] });
 }
 
 async function handleDeleteSubcommand({ interaction, language }) {
@@ -216,7 +292,6 @@ async function handleDeleteSubcommand({ interaction, language }) {
         return;
     }
     try {
-        console.log(giveawayId);
         await deleteGiveaway(giveawayId, interaction.guild);
     } catch (error) {
         if (error.message === "Unauthorized" || error.message == "Failed to find Giveaway") {

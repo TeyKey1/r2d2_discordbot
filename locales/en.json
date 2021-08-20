@@ -16,7 +16,14 @@
         "delete": {
           "invalidArgument": "The given message link or giveaway ID is invalid.",
           "notFound": "The specified giveaway was not found. Please make sure that you provided a valid url/ID.",
-          "general": "Whoops. Hier ist etwas schief gelaufen: "
+          "general": "Whoops. Something went wrong: "
+        },
+        "modify": {
+          "invalidArgument": "The given message link or giveaway ID is invalid.",
+          "notFound": "The specified giveaway was not found. Please make sure that you provided a valid url/ID.",
+          "general": "Whoops. Something went wrong: ",
+          "winnerAmount": "Please enter a valid amount of winners. At least 1.",
+          "invalidDuration": "Please enter a valid Durationamount and Durationunit if you want to edit the duration of the giveaway."
         }
       }
     },
@@ -61,6 +68,9 @@
       },
       "delete": {
         "success": "Successfully deleted the giveaway!"
+      },
+      "modify": {
+        "success": "Successfully modified the giveaway!"
       }
     }
   },

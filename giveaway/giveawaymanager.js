@@ -19,8 +19,8 @@ async function modifyGiveaway(giveaway, guild, language) {
     }
 
     const channel = await guild.channels.resolve(giveaway.channel);
-    const message = await channel.messages.resolve(giveaway.id);
-    await message.edit(":regional_indicator_g: :regional_indicator_i: :regional_indicator_v: :regional_indicator_e: :regional_indicator_a: :regional_indicator_w: :regional_indicator_a: :regional_indicator_y:", createEmbedGiveaway(giveaway, language));
+    const message = await channel.messages.fetch(giveaway.id);
+    await message.edit({ content: ":regional_indicator_g: :regional_indicator_i: :regional_indicator_v: :regional_indicator_e: :regional_indicator_a: :regional_indicator_w: :regional_indicator_a: :regional_indicator_y:", embeds: [createEmbedGiveaway(giveaway, language)] });
 
     giveaways.set(giveaway.id, giveaway);
     saveData(giveaways, filePath);

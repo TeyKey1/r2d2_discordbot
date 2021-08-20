@@ -17,6 +17,13 @@
           "invalidArgument": "Der Angegebene link oder Giveaway ID ist nicht korrekt.",
           "notFound": "Das angegebene Giveaway konnte nicht gefunden werden. Vergewissere dich, dass du die korrekte url/ID angegeben hast.",
           "general": "Whoops. Hier ist etwas schief gelaufen: "
+        },
+        "modify": {
+          "invalidArgument": "Der Angegebene link oder Giveaway ID ist nicht korrekt.",
+          "notFound": "Das angegebene Giveaway konnte nicht gefunden werden. Vergewissere dich, dass du die korrekte url/ID angegeben hast.",
+          "general": "Whoops. Hier ist etwas schief gelaufen: ",
+          "winnerAmount": "Bitte gib eine korrekte Anzahl Gewinner an. Mindestens 1.",
+          "invalidDuration": "Bitte gib einen korrekten Durationamount und eine Durationunit an, um die Dauer des Giveaways zu editieren."
         }
       }
     },
@@ -61,6 +68,9 @@
       },
       "delete": {
         "success": "Giveaway wurde erfolgreich gelöscht!"
+      },
+      "modify": {
+        "success": "Giveaway wurde erfolgreich editiert!"
       }
     }
   },
