@@ -1,14 +1,14 @@
 const config = require("config");
 const { logger } = require("../utility/logger");
-const {Collection} = require("discord.js");
+const { Collection } = require("discord.js");
 const fs = require('fs');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 
 const rest = new REST({ version: "9" }).setToken(config.get("token"));
-const isProduction = process.env.NODE_ENV === "production" ?  true : false;
+const isProduction = process.env.NODE_ENV === "production" ? true : false;
 
-async function loadCommands(bot){
+async function loadCommands(bot) {
     var commands = new Collection();
     var apiCommandArray = [];
 
@@ -25,17 +25,17 @@ async function loadCommands(bot){
     return commands;
 }
 
-async function refreshCommands(apiCommandArray, bot){
+async function refreshCommands(apiCommandArray, bot) {
     try {
-		logger.info("Started reloading application (/) commands.");
+        logger.info("Started reloading application (/) commands.");
 
-        if(isProduction){
+        if (isProduction) {
             logger.info("Reloading global commands.");
             await rest.put(
                 Routes.applicationCommands(bot.application.id),
                 { body: apiCommandArray },
             );
-        }else{
+        } else {
             logger.info("Reloading guild commands.");
             await rest.put(
                 Routes.applicationGuildCommands(bot.application.id, config.get("debugGuildId")),
@@ -43,10 +43,10 @@ async function refreshCommands(apiCommandArray, bot){
             );
         }
 
-		logger.info("Successfully reloaded application (/) commands.");
-	} catch (error) {
-		logger.error("Failed to reload application commands", error);
-	}
+        logger.info("Successfully reloaded application (/) commands.");
+    } catch (error) {
+        logger.error("Failed to reload application commands", error);
+    }
 }
 
 module.exports.loadCommands = loadCommands;
