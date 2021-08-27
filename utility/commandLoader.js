@@ -31,7 +31,7 @@ async function refreshCommands(apiCommandArray, bot) {
 
         if (isProduction) {
             logger.info("Reloading global commands.");
-            await rest.put(
+            const res = await rest.put(
                 Routes.applicationCommands(bot.application.id),
                 { body: apiCommandArray },
             );

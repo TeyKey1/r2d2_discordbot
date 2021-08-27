@@ -72,6 +72,10 @@
       "modify": {
         "success": "Giveaway wurde erfolgreich editiert!"
       }
+    },
+    "help": {
+      "user": "`/randomchoose`\nWählt einen zufälligen Gewinner aus der gegebenen Liste.\n\n`/giveaway`\nErstelle, editiere, liste oder lösche ein Giveaway.\n\n`/about`\nZeigt weitere Informationen über den Bot.\n\n`/help`\nZeigt diese Hilfeseite.",
+      "admin": "**Berechtigungs level:**\n:red_square: Admin\n:green_square: User\n\n:red_square:`/setlanguage`\nKonfiguriert die Sprache des Bots.\n\n:red_square:`/permissions`\nKonfiguriert oder listet, welche gruppen Admin und Userrechte für diesen Bot haben.\n\n:green_square:`/randomchoose`\nWählt einen zufälligen Gewinner aus der gegebenen Liste.\n\n:green_square:`/giveaway`\nErstelle, editiere, liste oder lösche ein Giveaway.\n\n:green_square:`/about`\nZeigt weitere Informationen über den Bot.\n\n:green_square:`/help`\nZeigt diese Hilfeseite."
     }
   },
   "giveaway": {
