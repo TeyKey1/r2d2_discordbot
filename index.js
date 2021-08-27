@@ -7,7 +7,7 @@ const { getGuild } = require("./guild/guildmanager");
 const fs = require('fs');
 const { loadCommands } = require("./utility/commandLoader");
 const { deleteRole } = require("./guild/permissionmanager");
-const { scheduleGiveaways } = require("./giveaway/scheduler");
+const { scheduleGiveaways } = require("./utility/scheduler");
 
 
 const bot = new Client({

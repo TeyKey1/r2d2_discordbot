@@ -95,6 +95,9 @@
       "failedDescription": "Das Giveaway konnte nicht erfolgreich beendet werden, da es zu wenige Teilnehmer gab."
     }
   },
+  "reminder": {
+    "title": ":warning: Erinnerung: :warning:"
+  },
   "spacer": "spacer",
   "cmdGeneralError": "Hier ist etwas schief gelaufen! Befehl konnte nicht ausgeführt werden.",
   "cmdBotHello": "Beep boop. Boop Beep! \\uD83E\\uDD16 \\nIch bin wach und bereit!",

@@ -2,7 +2,6 @@ const { SlashCommandBuilder } = require("@discordjs/builders");
 const { MessageEmbed } = require("discord.js");
 const { checkPermission } = require("../guild/permissionmanager");
 const { translate } = require("../utility/translate");
-const { modifyGuild } = require("../guild/guildmanager");
 
 module.exports = {
     data: new SlashCommandBuilder()

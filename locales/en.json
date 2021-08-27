@@ -95,6 +95,9 @@
       "failedDescription": "The giveaway could not be eneded successfully, due to too little participants."
     }
   },
+  "reminder": {
+    "title": ":warning: Reminder: :warning:"
+  },
   "spacer": "spacer",
   "cmdGeneralError": "Something went wrong! Could not execute command.",
   "cmdBotHello": "Beep boop. Boop Beep! \\uD83E\\uDD16 \\nI'm awake and ready for action!",
