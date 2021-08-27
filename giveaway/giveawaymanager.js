@@ -137,7 +137,9 @@ async function endGiveaway(giveawayId, bot) {
             .setTitle(translate(language, "giveaway.end.failedTitle"))
             .setDescription(translate(language, "giveaway.end.failedDescription"));
         await message.edit({ content: "** **", embeds: [embed] });
-        reminderChannel.send({ content: translate(language, "giveaway.end.notificationFailed") + channel.toString() });
+
+        reminderChannel.send({ content: translate(language, "giveaway.end.notificationFailed") + channel.toString() })
+            .catch(error => { });
 
         //delete giveaway
         giveaways.delete(giveawayId);
@@ -155,7 +157,8 @@ async function endGiveaway(giveawayId, bot) {
     await message.edit({ content: translate(language, "giveaway.end.winners") + winners.map(e => `<@${e.id}>`).join(", ") + ":tada:", embeds: [createEmbedWinner(giveaway, winners, language)] });
 
     //Send reminder
-    reminderChannel.send({ content: translate(language, "giveaway.end.notification") + channel.toString() });
+    reminderChannel.send({ content: translate(language, "giveaway.end.notification") + channel.toString() })
+        .catch(error => { });
 
     //delete giveaway
     giveaways.delete(giveawayId);

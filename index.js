@@ -109,6 +109,8 @@ bot.on("interactionCreate", async interaction => {
 
     if (!bot.commands.has(interaction.commandName)) return;
 
+    if (!interaction.inGuild()) return;
+
     const storedGuild = getGuild(interaction.guild);
     const language = storedGuild.language;
 
