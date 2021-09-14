@@ -8,6 +8,8 @@ You can use the following commands in Discord to control the bot:
 
 **/randomchoose** Randomly choose one or more winners out of a provided list of participants
 
+**/reminder** create/list/delete a reminder
+
 **/setlanguage** select the language of the bot (german or english)
 
 **/permissions** add/remove user and admin roles to control who can change the bot settings or create giveaways etc.
