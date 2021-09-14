@@ -1,4 +1,6 @@
 const { MessageEmbed } = require("discord.js");
+const { DateTime } = require("luxon");
+const { logger } = require("../utility/logger");
 const { readDataSync, saveData } = require("../utility/dataHandler");
 const { translate } = require("../utility/translate");
 
@@ -53,16 +55,18 @@ function getReminder(reminderId) {
 
 async function remind(reminder, bot) {
     const language = reminder.language;
-    var user = undefinded;
+    var user = undefined;
 
     user = await bot.users.fetch(reminder.userId);
 
     const embed = new MessageEmbed()
         .setColor("#FF9200")
         .setTitle(translate(language, "reminder.title"))
-        .setDescription(reninder.description);
+        .setDescription(reminder.description);
 
     await user.send({ embeds: [embed] });
+
+    deleteReminder(reminder.id, user);
 }
 
 async function checkReminder(bot) {

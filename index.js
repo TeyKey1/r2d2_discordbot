@@ -3,11 +3,12 @@ const { Client, Intents, Options, LimitedCollection } = require('discord.js');
 const { logger } = require("./utility/logger");
 const { loadGuilds, createGuild, deleteGuild } = require("./guild/guildmanager");
 const { loadGiveaways } = require("./giveaway/giveawaymanager");
+const { loadReminders } = require("./reminder/remindermanager");
 const { getGuild } = require("./guild/guildmanager");
 const fs = require('fs');
 const { loadCommands } = require("./utility/commandLoader");
 const { deleteRole } = require("./guild/permissionmanager");
-const { scheduleGiveaways } = require("./utility/scheduler");
+const { scheduleGiveaways, scheduleReminders } = require("./utility/scheduler");
 
 
 const bot = new Client({
@@ -33,6 +34,8 @@ bot.login(config.get("token")).catch(err => {
 });
 
 async function init() {
+
+    logger.info("Initializing app. Environment: " + process.env.NODE_ENV);
 
     //Load bot commands
     try {
@@ -67,11 +70,21 @@ async function init() {
         process.exit(1);
     }
 
+    try {
+        loadReminders();
+    } catch (err) {
+        logger.error("Failed to load reminder data:", err);
+        process.exit(1);
+    }
+
     //Start Random Org API connection
     require("./utility/random");
 
     //Start giveaway scheduler
     scheduleGiveaways(bot);
+
+    //Start reminder scheduler
+    scheduleReminders(bot);
 
 }
 

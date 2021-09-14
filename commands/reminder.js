@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { MessageEmbed, SnowflakeUtil } = require("discord.js");
+const { Duration, DateTime } = require("luxon");
 const { checkPermission } = require("../guild/permissionmanager");
 const { translate } = require("../utility/translate");
 const { createReminder, deleteReminder, getReminderList } = require("../reminder/remindermanager");
@@ -164,7 +165,7 @@ async function handleListSubcommand({ interaction, language }) {
     embed.setDescription(translate(language, "commands.reminder.list.description"));
 
     reminders.forEach(reminder => {
-        embed.addField(reminder.id, `***${translate(language, "commands.reminder.list.end")}*** ${DateTime.fromISO(reminder.endDate).toFormat(`dd.MM.yyyy `) + translate(language, "reminder.dateConnector") + DateTime.fromISO(reminder.endDate).toFormat(` HH:mm`)}\n***${translate(language, "commands.reminder.list.reminderDescription")}*** ${reminder.description}`);
+        embed.addField(reminder.id, `***${translate(language, "commands.reminder.list.end")}*** ${DateTime.fromISO(reminder.date).toFormat(`dd.MM.yyyy `) + translate(language, "reminder.dateConnector") + DateTime.fromISO(reminder.date).toFormat(` HH:mm`)}\n***${translate(language, "commands.reminder.list.reminderDescription")}*** ${reminder.description}`);
     });
 
     interaction.reply({ embeds: [embed] });
@@ -178,4 +179,11 @@ function getReminderId(string) {
     }
 
     return string;
+}
+
+function validateIntegerAmount(integerAmount) {
+    if (integerAmount == 0) {
+        return undefined;
+    }
+    return Math.abs(integerAmount);
 }

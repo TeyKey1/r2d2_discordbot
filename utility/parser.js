@@ -33,7 +33,17 @@ function parseDiscordMessageLink(link) {
         }
 
         return { guildId, channelId, messageId };
-    } else {
+    } else if(link.substring(0, 32).toLowerCase() === "https://discordapp.com/channels/"){
+        const guildId = link.substring(32, 50);
+        const channelId = link.substring(51, 69);
+        const messageId = link.substring(70);
+
+        if (guildId.match(/^[0-9]+$/) == null || channelId.match(/^[0-9]+$/) == null || messageId.match(/^[0-9]+$/) == null) {
+            return undefined;
+        }
+
+        return { guildId, channelId, messageId };
+    }else{
         return undefined;
     }
 }

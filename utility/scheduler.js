@@ -15,7 +15,7 @@ function scheduleGiveaways(bot) {
 }
 
 function scheduleReminders(bot) {
-    cron.schedule("*/5 * * * *", async () => {
+    cron.schedule("*/2 * * * *", async () => {
         try {
             await checkReminder(bot);
             logger.debug("checking reminders...");

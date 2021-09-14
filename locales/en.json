@@ -84,8 +84,8 @@
       }
     },
     "help": {
-      "user": "`/randomchoose`\nRandomly chooses a winner out of a provided list.\n\n`/giveaway`\nCreate, edit, list or delete a giveaway.\n\n`/about`\nDisplays more info about the bot.\n\n`/help`\nShows this help page.",
-      "admin": "**Permission level:**\n:red_square: Admin\n:green_square: User\n\n:red_square:`/setlanguage`\nSets the language of the bot.\n\n:red_square:`/permissions`\nAdjusts or lists which groups have admin and user permission.\n\n:green_square:`/randomchoose`\nRandomly chooses a winner out of a provided list.\n\n:green_square:`/giveaway`\nCreate, edit, list or delete a giveaway.\n\n:green_square:`/about`\nDisplays more info about the bot.\n\n:green_square:`/help`\nShows this help page."
+      "user": "`/randomchoose`\nRandomly chooses a winner out of a provided list.\n\n`/giveaway`\nCreate, edit, list or delete a giveaway.\n\n`/reminder`\nCreate, list or delete a reminder.\n\n`/about`\nDisplays more info about the bot.\n\n`/help`\nShows this help page.",
+      "admin": "**Permission level:**\n:red_square: Admin\n:green_square: User\n\n:red_square:`/setlanguage`\nSets the language of the bot.\n\n:red_square:`/permissions`\nAdjusts or lists which groups have admin and user permission.\n\n:green_square:`/randomchoose`\nRandomly chooses a winner out of a provided list.\n\n:green_square:`/giveaway`\nCreate, edit, list or delete a giveaway.\n\n:green_square:`/reminder`\nCreate, list or delete a reminder.\n\n:green_square:`/about`\nDisplays more info about the bot.\n\n:green_square:`/help`\nShows this help page."
     },
     "reminder": {
       "create": {

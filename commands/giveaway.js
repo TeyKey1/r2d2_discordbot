@@ -1,13 +1,11 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { MessageEmbed } = require("discord.js");
-const { giveaway } = require("../utility/logger");
 const { checkPermission } = require("../guild/permissionmanager");
 const { translate } = require("../utility/translate");
 const { Duration, DateTime } = require("luxon");
 const { createGiveaway, getGiveawayList, deleteGiveaway, modifyGiveaway, getGiveaway } = require("../giveaway/giveawaymanager");
 const { logger } = require("../utility/logger");
 const { parseDiscordMessageLink } = require("../utility/parser");
-const { xor } = require("lodash");
 
 module.exports = {
     data: new SlashCommandBuilder()
