@@ -2,32 +2,32 @@ const { SlashCommandBuilder } = require("@discordjs/builders");
 const { MessageEmbed } = require("discord.js");
 const { checkPermission } = require("../guild/permissionmanager");
 const { translate } = require("../utility/translate");
-const {modifyGuild} = require("../guild/guildmanager");
+const { modifyGuild } = require("../guild/guildmanager");
 
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName("permissions")
 		.setDescription("Manages user permissions for bot commands")
-		.addSubcommandGroup((group) => 
+		.addSubcommandGroup((group) =>
 			group
 				.setName("admin")
 				.setDescription("Modify admin command permissions")
-				.addSubcommand((subcommand) => 
+				.addSubcommand((subcommand) =>
 					subcommand
 						.setName("addrole")
 						.setDescription("Adds a role to the admin permission group")
-						.addRoleOption((option) => 
+						.addRoleOption((option) =>
 							option
 								.setName("role")
 								.setDescription("Role to add")
 								.setRequired(true)
 						)
 				)
-				.addSubcommand((subcommand) => 
+				.addSubcommand((subcommand) =>
 					subcommand
 						.setName("removerole")
 						.setDescription("Removes a role from the admin permission group")
-						.addRoleOption((option) => 
+						.addRoleOption((option) =>
 							option
 								.setName("role")
 								.setDescription("Role to remove")
@@ -35,26 +35,26 @@ module.exports = {
 						)
 				),
 		)
-		.addSubcommandGroup((group) => 
+		.addSubcommandGroup((group) =>
 			group
 				.setName("user")
 				.setDescription("Modify user command permissions")
-				.addSubcommand((subcommand) => 
+				.addSubcommand((subcommand) =>
 					subcommand
 						.setName("addrole")
 						.setDescription("Adds a role to the user permission group")
-						.addRoleOption((option) => 
+						.addRoleOption((option) =>
 							option
 								.setName("role")
 								.setDescription("Role to add")
 								.setRequired(true)
 						)
 				)
-				.addSubcommand((subcommand) => 
+				.addSubcommand((subcommand) =>
 					subcommand
 						.setName("removerole")
 						.setDescription("Removes a role from the user permission group")
-						.addRoleOption((option) => 
+						.addRoleOption((option) =>
 							option
 								.setName("role")
 								.setDescription("Role to remove")
@@ -62,34 +62,34 @@ module.exports = {
 						)
 				),
 		)
-		.addSubcommandGroup((group) => 
+		.addSubcommandGroup((group) =>
 			group
 				.setName("list")
 				.setDescription("List current permission settings")
-				.addSubcommand((subcommand) => 
+				.addSubcommand((subcommand) =>
 					subcommand
 						.setName("all")
 						.setDescription("Lists all current permission settings")
 				),
 		),
-	async execute({interaction, storedGuild, language}) {
-        if (!checkPermission("admin", interaction.member, storedGuild)) {
+	async execute({ interaction, storedGuild, language }) {
+		if (!checkPermission("admin", interaction.member, storedGuild)) {
 			const embed = new MessageEmbed()
-                .setColor("#ff1100")
-                .setDescription(translate(language, "commands.errors.permission"));
-            await interaction.reply({embeds: [embed], ephemeral: true});
-            return;
-        }
+				.setColor("#ff1100")
+				.setDescription(translate(language, "commands.errors.permission"));
+			await interaction.reply({ embeds: [embed], ephemeral: true });
+			return;
+		}
 
 		switch (interaction.options.getSubcommandGroup()) {
 			case "admin":
-				await handleAdminSubcommand({interaction, storedGuild, language});
+				await handleAdminSubcommand({ interaction, storedGuild, language });
 				break;
 			case "user":
-				await handleUserSubcommand({interaction, storedGuild, language});
+				await handleUserSubcommand({ interaction, storedGuild, language });
 				break;
 			case "list":
-				await handleListSubcommand({interaction, storedGuild, language});
+				await handleListSubcommand({ interaction, storedGuild, language });
 				break;
 			default:
 				throw new Error("Specified subcommand group does not exist");
@@ -97,17 +97,17 @@ module.exports = {
 	},
 };
 
-async function handleAdminSubcommand({interaction, storedGuild, language}){
+async function handleAdminSubcommand({ interaction, storedGuild, language }) {
 	var embed = new MessageEmbed();
 	const role = interaction.options.getRole("role", true);
 
 	switch (interaction.options.getSubcommand()) {
 		case "addrole":
-			if(storedGuild.adminRoles.includes(role.id)){
+			if (storedGuild.adminRoles.includes(role.id)) {
 				embed
 					.setColor("#FF9200")
 					.setDescription(translate(language, "commands.permissions.admin.addRoleExists"));
-				interaction.reply({embeds: [embed], ephemeral: true});
+				interaction.reply({ embeds: [embed], ephemeral: true });
 				return;
 			}
 
@@ -117,14 +117,14 @@ async function handleAdminSubcommand({interaction, storedGuild, language}){
 			embed
 				.setColor("#0aa12d")
 				.setDescription(translate(language, "commands.permissions.admin.addRole"));
-			interaction.reply({embeds: [embed]});
+			interaction.reply({ embeds: [embed] });
 			break;
 		case "removerole":
-			if(!storedGuild.adminRoles.includes(role.id)){
+			if (!storedGuild.adminRoles.includes(role.id)) {
 				embed
 					.setColor("#FF9200")
 					.setDescription(translate(language, "commands.permissions.admin.removeRoleNotExisting"));
-				interaction.reply({embeds: [embed], ephemeral: true});
+				interaction.reply({ embeds: [embed], ephemeral: true });
 				return;
 			}
 
@@ -134,24 +134,24 @@ async function handleAdminSubcommand({interaction, storedGuild, language}){
 			embed
 				.setColor("#0aa12d")
 				.setDescription(translate(language, "commands.permissions.admin.removeRole"));
-			interaction.reply({embeds: [embed]});
+			interaction.reply({ embeds: [embed] });
 			break;
 		default:
 			throw new Error("Specified subcommand does not exist");
 	}
 }
 
-async function handleUserSubcommand({interaction, storedGuild, language}){
+async function handleUserSubcommand({ interaction, storedGuild, language }) {
 	var embed = new MessageEmbed();
 	const role = interaction.options.getRole("role", true);
 
 	switch (interaction.options.getSubcommand()) {
 		case "addrole":
-			if(storedGuild.userRoles.includes(role.id)){
+			if (storedGuild.userRoles.includes(role.id)) {
 				embed
 					.setColor("#FF9200")
 					.setDescription(translate(language, "commands.permissions.user.addRoleExists"));
-				interaction.reply({embeds: [embed], ephemeral: true});
+				interaction.reply({ embeds: [embed], ephemeral: true });
 				return;
 			}
 
@@ -161,14 +161,14 @@ async function handleUserSubcommand({interaction, storedGuild, language}){
 			embed
 				.setColor("#0aa12d")
 				.setDescription(translate(language, "commands.permissions.user.addRole"));
-			interaction.reply({embeds: [embed]});
+			interaction.reply({ embeds: [embed] });
 			break;
 		case "removerole":
-			if(!storedGuild.userRoles.includes(role.id)){
+			if (!storedGuild.userRoles.includes(role.id)) {
 				embed
 					.setColor("#FF9200")
 					.setDescription(translate(language, "commands.permissions.user.removeRoleNotExisting"));
-				interaction.reply({embeds: [embed], ephemeral: true});
+				interaction.reply({ embeds: [embed], ephemeral: true });
 				return;
 			}
 
@@ -178,14 +178,14 @@ async function handleUserSubcommand({interaction, storedGuild, language}){
 			embed
 				.setColor("#0aa12d")
 				.setDescription(translate(language, "commands.permissions.user.removeRole"));
-			interaction.reply({embeds: [embed]});
+			interaction.reply({ embeds: [embed] });
 			break;
 		default:
 			throw new Error("Specified subcommand does not exist");
 	}
 }
 
-async function handleListSubcommand({interaction, storedGuild, language}){
+async function handleListSubcommand({ interaction, storedGuild, language }) {
 	switch (interaction.options.getSubcommand()) {
 		case "all":
 			var embed = new MessageEmbed();
@@ -196,7 +196,7 @@ async function handleListSubcommand({interaction, storedGuild, language}){
 				.addField("Admin", (() => {
 					const array = storedGuild.adminRoles;
 
-					if(array.length == 0){
+					if (array.length == 0) {
 						return translate(language, "commands.permissions.list.adminRolesEmpty");
 					}
 
@@ -211,7 +211,7 @@ async function handleListSubcommand({interaction, storedGuild, language}){
 				.addField("User", (() => {
 					const array = storedGuild.userRoles;
 
-					if(array.length == 0){
+					if (array.length == 0) {
 						return translate(language, "commands.permissions.list.userRolesEmpty");
 					}
 
@@ -223,7 +223,7 @@ async function handleListSubcommand({interaction, storedGuild, language}){
 					return str;
 				})());
 
-			interaction.reply({embeds: [embed]});
+			interaction.reply({ embeds: [embed] });
 			break;
 		default:
 			throw new Error("Specified subcommand does not exist");

@@ -2,7 +2,7 @@ const { SlashCommandBuilder } = require("@discordjs/builders");
 const { MessageEmbed, SnowflakeUtil } = require("discord.js");
 const { checkPermission } = require("../guild/permissionmanager");
 const { translate } = require("../utility/translate");
-const {createReminder, deleteReminder, getReminderList} = require("../reminder/remindermanager");
+const { createReminder, deleteReminder, getReminderList } = require("../reminder/remindermanager");
 
 
 module.exports = {
@@ -81,7 +81,7 @@ module.exports = {
     },
 };
 
-async function handleCreateSubcommand({ interaction, language }){
+async function handleCreateSubcommand({ interaction, language }) {
     var embed = new MessageEmbed();
     const durationAmount = validateIntegerAmount(interaction.options.getInteger("duration", true));
 
@@ -114,11 +114,42 @@ async function handleCreateSubcommand({ interaction, language }){
     await interaction.reply({ embeds: [embed] });
 }
 
-async function handleDeleteSubcommand({ interaction, language }){
+async function handleDeleteSubcommand({ interaction, language }) {
+    var embed = new MessageEmbed;
+    const reminderId = getReminderId(interaction.options.getString("id", true));
 
+    if (!reminderId) {
+        embed
+            .setColor("#FF9200")
+            .setDescription(translate(language, "commands.errors.reminder.delete.invalidArgument"));
+        await interaction.reply({ embeds: [embed], ephemeral: true });
+        return;
+    }
+    try {
+        deleteReminder(reminderId, interaction.user);
+    } catch (error) {
+        if (error.message === "Unauthorized" || error.message == "Failed to find reminder") {
+            embed
+                .setColor("#FF9200")
+                .setDescription(translate(language, "commands.errors.reminder.delete.notFound"));
+            await interaction.reply({ embeds: [embed], ephemeral: true });
+            return;
+        } else {
+            embed
+                .setColor("#FF9200")
+                .setDescription(translate(language, "commands.errors.reminder.delete.general") + error);
+            await interaction.reply({ embeds: [embed], ephemeral: true });
+            return;
+        }
+    }
+
+    embed
+        .setColor("#0aa12d")
+        .setDescription(translate(language, "commands.reminder.delete.success"));
+    await interaction.reply({ embeds: [embed] });
 }
 
-async function handleListSubcommand({ interaction, language }){
+async function handleListSubcommand({ interaction, language }) {
     const reminders = getReminderList(interaction.user);
     var embed = new MessageEmbed()
         .setColor("#1CACE5")
@@ -133,8 +164,18 @@ async function handleListSubcommand({ interaction, language }){
     embed.setDescription(translate(language, "commands.reminder.list.description"));
 
     reminders.forEach(reminder => {
-        embed.addField(reminder.id, `***${translate(language, "commands.reminder.list.channel")}*** <#${reminder.channel}> ***${translate(language, "commands.reminder.list.end")}*** ${DateTime.fromISO(reminder.endDate).toFormat(`dd.MM.yyyy `) + translate(language, "reminder.create.dateConnector") + DateTime.fromISO(reminder.endDate).toFormat(` HH:mm`)}\n***${translate(language, "commands.reminder.list.prize")}*** ${reminder.prize}`);
+        embed.addField(reminder.id, `***${translate(language, "commands.reminder.list.end")}*** ${DateTime.fromISO(reminder.endDate).toFormat(`dd.MM.yyyy `) + translate(language, "reminder.dateConnector") + DateTime.fromISO(reminder.endDate).toFormat(` HH:mm`)}\n***${translate(language, "commands.reminder.list.reminderDescription")}*** ${reminder.description}`);
     });
 
     interaction.reply({ embeds: [embed] });
+}
+
+function getReminderId(string) {
+    string.trim();
+
+    if (parseInt(string) === NaN) {
+        return undefined;
+    }
+
+    return string;
 }

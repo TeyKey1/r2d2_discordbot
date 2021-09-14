@@ -25,6 +25,16 @@
           "winnerAmount": "Bitte gib eine korrekte Anzahl Gewinner an. Mindestens 1.",
           "invalidDuration": "Bitte gib einen korrekten Durationamount und eine Durationunit an, um die Dauer des Giveaways zu editieren."
         }
+      },
+      "reminder": {
+        "create": {
+          "durationAmount": "Bitte gib eine korrekte Dauer an. Mindestens 1."
+        },
+        "delete": {
+          "invalidArgument": "Die angegebene Reminder ID ist nicht korrekt.",
+          "notFound": "Der angegebene Reminder konnte nicht gefunden werden. Vergewissere dich, dass du die korrekte ID angegeben hast.",
+          "general": "Whoops. Hier ist etwas schief gelaufen: "
+        }
       }
     },
     "changeLanguage": "Sprachprotokoll erfolgreich umkonfiguriert!",
@@ -76,6 +86,21 @@
     "help": {
       "user": "`/randomchoose`\nWählt einen zufälligen Gewinner aus der gegebenen Liste.\n\n`/giveaway`\nErstelle, editiere, liste oder lösche ein Giveaway.\n\n`/about`\nZeigt weitere Informationen über den Bot.\n\n`/help`\nZeigt diese Hilfeseite.",
       "admin": "**Berechtigungs level:**\n:red_square: Admin\n:green_square: User\n\n:red_square:`/setlanguage`\nKonfiguriert die Sprache des Bots.\n\n:red_square:`/permissions`\nKonfiguriert oder listet, welche gruppen Admin und Userrechte für diesen Bot haben.\n\n:green_square:`/randomchoose`\nWählt einen zufälligen Gewinner aus der gegebenen Liste.\n\n:green_square:`/giveaway`\nErstelle, editiere, liste oder lösche ein Giveaway.\n\n:green_square:`/about`\nZeigt weitere Informationen über den Bot.\n\n:green_square:`/help`\nZeigt diese Hilfeseite."
+    },
+    "reminder": {
+      "create": {
+        "success": "Reminder wurde erfolgreich erstellt!"
+      },
+      "delete": {
+        "success": "Reminder wurde erfolgreich gelöscht!"
+      },
+      "list": {
+        "title": "Aktive Reminder:",
+        "empty": "Du hast momentan keine aktiven Reminder. Du kannst eine mit /reminder erstellen.",
+        "description": "Hier werden alle deine aktiven Reminder aufgelistet. Der Titel ist jeweils die ID des Reminders.",
+        "end": "Erinnert dich am:",
+        "reminderDescription": "Beschreibung:"
+      }
     }
   },
   "giveaway": {
@@ -96,7 +121,8 @@
     }
   },
   "reminder": {
-    "title": ":warning: Erinnerung: :warning:"
+    "title": ":warning: Erinnerung: :warning:",
+    "dateConnector": "um"
   },
   "spacer": "spacer",
   "cmdGeneralError": "Hier ist etwas schief gelaufen! Befehl konnte nicht ausgeführt werden.",

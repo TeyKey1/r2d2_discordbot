@@ -45,7 +45,7 @@ function getReminder(reminderId) {
 
     //Throw error, if not existing
     if (!storedReminder) {
-        throw new Error("Failed to find Reminder");
+        throw new Error("Failed to find reminder");
     }
 
     return storedReminder;

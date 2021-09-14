@@ -26,9 +26,15 @@
           "invalidDuration": "Please enter a valid Durationamount and Durationunit if you want to edit the duration of the giveaway."
         }
       },
-      "help": {
-        "user": "`/randomchoose`\nRandomly chooses a winner out of a provided list.\n\n`/giveaway`\nCreate, edit, list or delete a giveaway.\n\n`/about`\nDisplays more info about the bot.\n\n`/help`\nShows this help page.",
-        "admin": "**Permission level:**\n:red_square: Admin\n:green_square: User\n\n:red_square:`/setlanguage`\nSets the language of the bot.\n\n:red_square:`/permissions`\nAdjusts or lists which groups have admin and user permission.\n\n:green_square:`/randomchoose`\nRandomly chooses a winner out of a provided list.\n\n:green_square:`/giveaway`\nCreate, edit, list or delete a giveaway.\n\n:green_square:`/about`\nDisplays more info about the bot.\n\n:green_square:`/help`\nShows this help page."
+      "reminder": {
+        "create": {
+          "durationAmount": "Please enter a valid duration. At least 1."
+        },
+        "delete": {
+          "invalidArgument": "The given reminder ID is invalid.",
+          "notFound": "The specified reminder was not found. Please make sure that you provided a valid ID.",
+          "general": "Whoops. Something went wrong: "
+        }
       }
     },
     "changeLanguage": "Successfully configured new language protocol!",
@@ -76,6 +82,25 @@
       "modify": {
         "success": "Successfully modified the giveaway!"
       }
+    },
+    "help": {
+      "user": "`/randomchoose`\nRandomly chooses a winner out of a provided list.\n\n`/giveaway`\nCreate, edit, list or delete a giveaway.\n\n`/about`\nDisplays more info about the bot.\n\n`/help`\nShows this help page.",
+      "admin": "**Permission level:**\n:red_square: Admin\n:green_square: User\n\n:red_square:`/setlanguage`\nSets the language of the bot.\n\n:red_square:`/permissions`\nAdjusts or lists which groups have admin and user permission.\n\n:green_square:`/randomchoose`\nRandomly chooses a winner out of a provided list.\n\n:green_square:`/giveaway`\nCreate, edit, list or delete a giveaway.\n\n:green_square:`/about`\nDisplays more info about the bot.\n\n:green_square:`/help`\nShows this help page."
+    },
+    "reminder": {
+      "create": {
+        "success": "Successfully created the reminder!"
+      },
+      "delete": {
+        "success": "Successfully deleted the reminder!"
+      },
+      "list": {
+        "title": "Active Reminders:",
+        "empty": "You have no active reminders. You can create one by typing /reminder.",
+        "description": "All active reminders are listed here. Each title represents the ID of the corresponding reminder.",
+        "end": "Reminds you at:",
+        "reminderDescription": "Description:"
+      }
     }
   },
   "giveaway": {
@@ -96,7 +121,8 @@
     }
   },
   "reminder": {
-    "title": ":warning: Reminder: :warning:"
+    "title": ":warning: Reminder: :warning:",
+    "dateConnector": "at"
   },
   "spacer": "spacer",
   "cmdGeneralError": "Something went wrong! Could not execute command.",

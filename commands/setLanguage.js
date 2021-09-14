@@ -2,12 +2,12 @@ const { SlashCommandBuilder } = require("@discordjs/builders");
 const { MessageEmbed } = require("discord.js");
 const { checkPermission } = require("../guild/permissionmanager");
 const { translate } = require("../utility/translate");
-const {modifyGuild} = require("../guild/guildmanager");
+const { modifyGuild } = require("../guild/guildmanager");
 
 module.exports = {
-	data: new SlashCommandBuilder()
-		.setName("setlanguage")
-		.setDescription("Sets the language of R2D2")
+    data: new SlashCommandBuilder()
+        .setName("setlanguage")
+        .setDescription("Sets the language of R2D2")
         .addStringOption(option => {
             return option
                 .setName("language")
@@ -17,15 +17,15 @@ module.exports = {
                     ["Deutsch", "de"]
                 ])
                 .setRequired(true)
-            }),
-	async execute({interaction, storedGuild}) {
+        }),
+    async execute({ interaction, storedGuild }) {
         var embed = new MessageEmbed();
 
         if (!checkPermission("admin", interaction.member, storedGuild)) {
             embed
                 .setColor("#ff1100")
                 .setDescription(translate(storedGuild.language, "commands.errors.permission"));
-            await interaction.reply({embeds: [embed], ephemeral: true});
+            await interaction.reply({ embeds: [embed], ephemeral: true });
             return;
         }
 
@@ -36,6 +36,6 @@ module.exports = {
             .setColor("#0aa12d")
             .setDescription(translate(storedGuild.language, "commands.changeLanguage"));
 
-        await interaction.reply({embeds: [embed]});
-	},
+        await interaction.reply({ embeds: [embed] });
+    },
 };
