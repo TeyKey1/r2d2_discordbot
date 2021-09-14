@@ -33,7 +33,7 @@ module.exports = {
         }
 
         const participantString = interaction.options.getString("participants", true);
-        const participants = participantString.split(",").map(i => i.trim());
+        const participants = participantString.split(",").map(i => { return { username: i.trim() } });
         const winnerAmount = interaction.options.getInteger("winneramount", false) ? Math.abs(interaction.options.getInteger("winneramount", false)) : 1;
 
         if (participants.length <= 1) {
