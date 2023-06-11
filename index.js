@@ -1,5 +1,5 @@
 const config = require('config');
-const { Client, Intents, Options, LimitedCollection } = require('discord.js');
+const { Client, Intents, Options, LimitedCollection, Partials } = require('discord.js');
 const { logger } = require("./utility/logger");
 const { loadGuilds, createGuild, deleteGuild } = require("./guild/guildmanager");
 const { loadGiveaways } = require("./giveaway/giveawaymanager");
@@ -23,7 +23,7 @@ const bot = new Client({
         }
     }),
     retryLimit: 0,
-    partials: ['MESSAGE', 'REACTION'],
+    partials: [Partials.Message, Partials.Reaction],
     intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MESSAGE_REACTIONS]
 });
 

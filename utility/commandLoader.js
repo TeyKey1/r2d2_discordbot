@@ -1,9 +1,7 @@
 const config = require("config");
 const { logger } = require("../utility/logger");
-const { Collection } = require("discord.js");
+const { Collection, REST, Routes } = require("discord.js");
 const fs = require('fs');
-const { REST } = require('@discordjs/rest');
-const { Routes } = require('discord-api-types/v9');
 
 const rest = new REST({ version: "9" }).setToken(config.get("token"));
 const isProduction = process.env.NODE_ENV === "production" ? true : false;

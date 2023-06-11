@@ -1,5 +1,4 @@
-const { SlashCommandBuilder } = require("@discordjs/builders");
-const { MessageEmbed } = require("discord.js");
+const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 const { checkPermission } = require("../guild/permissionmanager");
 const { translate } = require("../utility/translate");
 
@@ -8,7 +7,7 @@ module.exports = {
         .setName("help")
         .setDescription("Displays the help page of the bot"),
     async execute({ interaction, storedGuild }) {
-        var embed = new MessageEmbed();
+        var embed = new EmbedBuilder();
 
         if (checkPermission("admin", interaction.member, storedGuild)) {
             embed

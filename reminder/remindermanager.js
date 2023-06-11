@@ -1,4 +1,4 @@
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const { DateTime } = require("luxon");
 const { logger } = require("../utility/logger");
 const { readDataSync, saveData } = require("../utility/dataHandler");
@@ -59,7 +59,7 @@ async function remind(reminder, bot) {
 
     user = await bot.users.fetch(reminder.userId);
 
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
         .setColor("#FF9200")
         .setTitle(translate(language, "reminder.title"))
         .setDescription(reminder.description);

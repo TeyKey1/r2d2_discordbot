@@ -1,5 +1,4 @@
-const { SlashCommandBuilder } = require("@discordjs/builders");
-const { MessageEmbed, SnowflakeUtil } = require("discord.js");
+const { SlashCommandBuilder, EmbedBuilder, SnowflakeUtil } = require("discord.js");
 const { Duration, DateTime } = require("luxon");
 const { checkPermission } = require("../guild/permissionmanager");
 const { translate } = require("../utility/translate");
@@ -56,7 +55,7 @@ module.exports = {
                 .setDescription("Lists all of your reminders"),
         ),
     async execute({ interaction, storedGuild, language }) {
-        var embed = new MessageEmbed();
+        var embed = new EmbedBuilder();
 
         if (!checkPermission("user", interaction.member, storedGuild)) {
             embed
@@ -83,7 +82,7 @@ module.exports = {
 };
 
 async function handleCreateSubcommand({ interaction, language }) {
-    var embed = new MessageEmbed();
+    var embed = new EmbedBuilder();
     const durationAmount = validateIntegerAmount(interaction.options.getInteger("duration", true));
 
     if (!durationAmount) {
@@ -116,7 +115,7 @@ async function handleCreateSubcommand({ interaction, language }) {
 }
 
 async function handleDeleteSubcommand({ interaction, language }) {
-    var embed = new MessageEmbed;
+    var embed = new EmbedBuilder();
     const reminderId = getReminderId(interaction.options.getString("id", true));
 
     if (!reminderId) {
@@ -152,7 +151,7 @@ async function handleDeleteSubcommand({ interaction, language }) {
 
 async function handleListSubcommand({ interaction, language }) {
     const reminders = getReminderList(interaction.user);
-    var embed = new MessageEmbed()
+    var embed = new EmbedBuilder()
         .setColor("#1CACE5")
         .setTitle(translate(language, "commands.reminder.list.title"));
 
@@ -165,7 +164,12 @@ async function handleListSubcommand({ interaction, language }) {
     embed.setDescription(translate(language, "commands.reminder.list.description"));
 
     reminders.forEach(reminder => {
-        embed.addField(reminder.id, `***${translate(language, "commands.reminder.list.end")}*** ${DateTime.fromISO(reminder.date).toFormat(`dd.MM.yyyy `) + translate(language, "reminder.dateConnector") + DateTime.fromISO(reminder.date).toFormat(` HH:mm`)}\n***${translate(language, "commands.reminder.list.reminderDescription")}*** ${reminder.description}`);
+        embed.addFields([
+            {
+                name: reminder.id,
+                value: `***${translate(language, "commands.reminder.list.end")}*** ${DateTime.fromISO(reminder.date).toFormat(`dd.MM.yyyy `) + translate(language, "reminder.dateConnector") + DateTime.fromISO(reminder.date).toFormat(` HH:mm`)}\n***${translate(language, "commands.reminder.list.reminderDescription")}*** ${reminder.description}`
+            }
+        ]);
     });
 
     interaction.reply({ embeds: [embed] });

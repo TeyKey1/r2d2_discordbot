@@ -1,5 +1,4 @@
-const { SlashCommandBuilder } = require("@discordjs/builders");
-const { MessageEmbed } = require("discord.js");
+const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 const { checkPermission } = require("../guild/permissionmanager");
 const { translate } = require("../utility/translate");
 const { modifyGuild } = require("../guild/guildmanager");
@@ -74,7 +73,7 @@ module.exports = {
 		),
 	async execute({ interaction, storedGuild, language }) {
 		if (!checkPermission("admin", interaction.member, storedGuild)) {
-			const embed = new MessageEmbed()
+			const embed = new EmbedBuilder()
 				.setColor("#ff1100")
 				.setDescription(translate(language, "commands.errors.permission"));
 			await interaction.reply({ embeds: [embed], ephemeral: true });
@@ -98,7 +97,7 @@ module.exports = {
 };
 
 async function handleAdminSubcommand({ interaction, storedGuild, language }) {
-	var embed = new MessageEmbed();
+	var embed = new EmbedBuilder();
 	const role = interaction.options.getRole("role", true);
 
 	switch (interaction.options.getSubcommand()) {
@@ -142,7 +141,7 @@ async function handleAdminSubcommand({ interaction, storedGuild, language }) {
 }
 
 async function handleUserSubcommand({ interaction, storedGuild, language }) {
-	var embed = new MessageEmbed();
+	var embed = new EmbedBuilder();
 	const role = interaction.options.getRole("role", true);
 
 	switch (interaction.options.getSubcommand()) {
@@ -188,40 +187,48 @@ async function handleUserSubcommand({ interaction, storedGuild, language }) {
 async function handleListSubcommand({ interaction, storedGuild, language }) {
 	switch (interaction.options.getSubcommand()) {
 		case "all":
-			var embed = new MessageEmbed();
+			var embed = new EmbedBuilder();
 			embed
 				.setColor("#1CACE5")
 				.setTitle(translate(language, "commands.permissions.list.title"))
 				.setDescription(translate(language, "commands.permissions.list.description"))
-				.addField("Admin", (() => {
-					const array = storedGuild.adminRoles;
+				.addFields([
+					{
+						name: "Admin",
+						value: (() => {
+							const array = storedGuild.adminRoles;
 
-					if (array.length == 0) {
-						return translate(language, "commands.permissions.list.adminRolesEmpty");
+							if (array.length == 0) {
+								return translate(language, "commands.permissions.list.adminRolesEmpty");
+							}
+
+							var str = "";
+							array.forEach(element => {
+								str += ":white_check_mark: :heavy_minus_sign: ";
+								str += `<@&${element}> \n`;
+							});
+							str += "\n ** **";
+							return str;
+						})()
+					},
+					{
+						name: "User",
+						value: (() => {
+							const array = storedGuild.userRoles;
+
+							if (array.length == 0) {
+								return translate(language, "commands.permissions.list.userRolesEmpty");
+							}
+
+							var str = "";
+							array.forEach(element => {
+								str += ":white_check_mark: :heavy_minus_sign: ";
+								str += `<@&${element}> \n`;
+							});
+							return str;
+						})()
 					}
-
-					var str = "";
-					array.forEach(element => {
-						str += ":white_check_mark: :heavy_minus_sign: ";
-						str += `<@&${element}> \n`;
-					});
-					str += "\n ** **";
-					return str;
-				})())
-				.addField("User", (() => {
-					const array = storedGuild.userRoles;
-
-					if (array.length == 0) {
-						return translate(language, "commands.permissions.list.userRolesEmpty");
-					}
-
-					var str = "";
-					array.forEach(element => {
-						str += ":white_check_mark: :heavy_minus_sign: ";
-						str += `<@&${element}> \n`;
-					});
-					return str;
-				})());
+				]);
 
 			interaction.reply({ embeds: [embed] });
 			break;

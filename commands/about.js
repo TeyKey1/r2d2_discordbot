@@ -1,5 +1,4 @@
-const { SlashCommandBuilder } = require("@discordjs/builders");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder, SlashCommandBuilder } = require("discord.js");
 const { checkPermission } = require("../guild/permissionmanager");
 const { translate } = require("../utility/translate");
 
@@ -8,7 +7,7 @@ module.exports = {
         .setName("about")
         .setDescription("Shows R2D2 about page"),
     async execute({ interaction, storedGuild, language }) {
-        var embed = new MessageEmbed();
+        var embed = new EmbedBuilder();
 
         if (!checkPermission("user", interaction.member, storedGuild)) {
             embed
@@ -21,10 +20,12 @@ module.exports = {
         embed
             .setColor("#E55A1C")
             .setTitle("About R2D2 Discord Bot")
-            .addField("Droid version:", `${process.pid}`)
-            .addField("Developer", "TeyKey1")
-            .addField("Version:", `${process.env.npm_package_version}`)
-            .addField("Gitbhub:", "https://github.com/TeyKey1/r2d2_discordbot");
+            .addFields([
+                { name: "Droid version:", value: `${process.pid}` },
+                { name: "Developer", value: "TeyKey1" },
+                { name: "Version:", value: `${process.env.npm_package_version}` },
+                { name: "Github:", value: "https://github.com/TeyKey1/r2d2_discordbot" }
+            ]);
 
         await interaction.reply({ embeds: [embed] });
     },

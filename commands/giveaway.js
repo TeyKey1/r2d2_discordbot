@@ -1,5 +1,4 @@
-const { SlashCommandBuilder } = require("@discordjs/builders");
-const { MessageEmbed } = require("discord.js");
+const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 const { checkPermission } = require("../guild/permissionmanager");
 const { translate } = require("../utility/translate");
 const { Duration, DateTime } = require("luxon");
@@ -110,7 +109,7 @@ module.exports = {
                 .setDescription("Lists all active giveaways and their id's on this server"),
         ),
     async execute({ interaction, storedGuild, language }) {
-        var embed = new MessageEmbed();
+        var embed = new EmbedBuilder();
 
         if (!checkPermission("user", interaction.member, storedGuild)) {
             embed
@@ -140,7 +139,7 @@ module.exports = {
 };
 
 async function handleCreateSubcommand({ interaction, language }) {
-    var embed = new MessageEmbed();
+    var embed = new EmbedBuilder();
     const guild = interaction.guild;
     const winnerAmount = validateIntegerAmount(interaction.options.getInteger("winners", true));
     const durationAmount = validateIntegerAmount(interaction.options.getInteger("duration", true));
@@ -200,7 +199,7 @@ async function handleCreateSubcommand({ interaction, language }) {
 }
 
 async function handleModifySubcommand({ interaction, storedGuild, language }) {
-    var embed = new MessageEmbed;
+    var embed = new EmbedBuilder();
     const giveawayId = getGiveawayId(interaction.options.getString("url_or_id", true));
 
     if (!giveawayId) {
@@ -279,7 +278,7 @@ async function handleModifySubcommand({ interaction, storedGuild, language }) {
 }
 
 async function handleDeleteSubcommand({ interaction, language }) {
-    var embed = new MessageEmbed;
+    var embed = new EmbedBuilder();
     const giveawayId = getGiveawayId(interaction.options.getString("url_or_id", true));
 
     if (!giveawayId) {
@@ -315,7 +314,7 @@ async function handleDeleteSubcommand({ interaction, language }) {
 
 async function handleListSubcommand({ interaction, language }) {
     const giveaways = getGiveawayList(interaction.guild);
-    var embed = new MessageEmbed()
+    var embed = new EmbedBuilder()
         .setColor("#1CACE5")
         .setTitle(translate(language, "commands.giveaway.list.title"));
 
@@ -328,7 +327,10 @@ async function handleListSubcommand({ interaction, language }) {
     embed.setDescription(translate(language, "commands.giveaway.list.description"));
 
     giveaways.forEach(giveaway => {
-        embed.addField(giveaway.id, `***${translate(language, "commands.giveaway.list.channel")}*** <#${giveaway.channel}> ***${translate(language, "commands.giveaway.list.end")}*** ${DateTime.fromISO(giveaway.endDate).toFormat(`dd.MM.yyyy `) + translate(language, "giveaway.create.dateConnector") + DateTime.fromISO(giveaway.endDate).toFormat(` HH:mm`)}\n***${translate(language, "commands.giveaway.list.prize")}*** ${giveaway.prize}`);
+        embed.addFields([{
+            name: giveaway.id,
+            value: `***${translate(language, "commands.giveaway.list.channel")}*** <#${giveaway.channel}> ***${translate(language, "commands.giveaway.list.end")}*** ${DateTime.fromISO(giveaway.endDate).toFormat(`dd.MM.yyyy `) + translate(language, "giveaway.create.dateConnector") + DateTime.fromISO(giveaway.endDate).toFormat(` HH:mm`)}\n***${translate(language, "commands.giveaway.list.prize")}*** ${giveaway.prize}`
+        }]);
     });
 
     interaction.reply({ embeds: [embed] });

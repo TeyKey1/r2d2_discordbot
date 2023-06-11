@@ -1,4 +1,4 @@
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder, ChannelType } = require("discord.js");
 const { readDataSync, saveData } = require("../utility/dataHandler");
 const { getGuildById } = require("../guild/guildmanager");
 const { translate } = require("../utility/translate");
@@ -58,7 +58,7 @@ async function createGiveaway(giveaway, guild, language) {
 
     const channel = await guild.channels.resolve(giveaway.channel);
 
-    if (!channel.isText()) {
+    if (channel.type !== ChannelType.GuildText) {
         throw new Error("Channel is not a textchannel");
     }
 
@@ -132,7 +132,7 @@ async function endGiveaway(giveawayId, bot) {
     if (participants.length == 0) {
         //failed to end giveaway
         logger.info("Failed to end giveaway. No participants!")
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
             .setColor("#ff1100")
             .setTitle(translate(language, "giveaway.end.failedTitle"))
             .setDescription(translate(language, "giveaway.end.failedDescription"));
@@ -195,14 +195,14 @@ function exists(giveawayId) {
 }
 
 function createEmbedGiveaway(giveaway, language) {
-    return new MessageEmbed()
+    return new EmbedBuilder()
         .setColor("#fc6203")
         .setDescription(translate(language, "giveaway.create.prize") + giveaway.prize + "\n\n" + translate(language, "giveaway.create.reactDate") + DateTime.fromISO(giveaway.endDate).toFormat(`dd.MM.yyyy `) + translate(language, "giveaway.create.dateConnector") + DateTime.fromISO(giveaway.endDate).toFormat(` HH:mm`))
         .setFooter(translate(language, "giveaway.create.winnerAmount") + giveaway.winners);
 }
 
 function createEmbedWinner(giveaway, winners, language) {
-    return new MessageEmbed()
+    return new EmbedBuilder()
         .setColor("#990099")
         .setTitle(translate(language, "giveaway.end.congratulations"))
         .setDescription(translate(language, "giveaway.end.prize") + giveaway.prize);

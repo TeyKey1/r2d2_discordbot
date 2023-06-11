@@ -1,5 +1,4 @@
-const { SlashCommandBuilder } = require("@discordjs/builders");
-const { MessageEmbed } = require("discord.js");
+const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 const { giveaway } = require("../utility/logger");
 const { checkPermission } = require("../guild/permissionmanager");
 const { translate } = require("../utility/translate");
@@ -22,7 +21,7 @@ module.exports = {
                 .setRequired(false)
         }),
     async execute({ interaction, storedGuild, language }) {
-        var embed = new MessageEmbed();
+        var embed = new EmbedBuilder();
 
         if (!checkPermission("user", interaction.member, storedGuild)) {
             embed
@@ -59,7 +58,7 @@ module.exports = {
             .setDescription("```ml\n" + translate(language, "commands.randomChoose.description") + winnerAmount + "```")
             .setFooter(translate(language, "commands.randomChoose.footer") + participants.length);
 
-        const winnerEmbed = new MessageEmbed()
+        const winnerEmbed = new EmbedBuilder()
             .setColor("#edc531")
             .setTitle(translate(language, "commands.randomChoose.winner") + winners.join(", "));
 

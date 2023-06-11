@@ -1,5 +1,4 @@
-const { SlashCommandBuilder } = require("@discordjs/builders");
-const { MessageEmbed } = require("discord.js");
+const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 const { checkPermission } = require("../guild/permissionmanager");
 const { translate } = require("../utility/translate");
 const { modifyGuild } = require("../guild/guildmanager");
@@ -19,7 +18,7 @@ module.exports = {
                 .setRequired(true)
         }),
     async execute({ interaction, storedGuild }) {
-        var embed = new MessageEmbed();
+        var embed = new EmbedBuilder();
 
         if (!checkPermission("admin", interaction.member, storedGuild)) {
             embed
