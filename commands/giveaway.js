@@ -31,12 +31,7 @@ module.exports = {
                         .setName("durationunit")
                         .setDescription("Unit of the specified duration")
                         .setRequired(true)
-                        .addChoices([
-                            ["minutes", "minutes"],
-                            ["hours", "hours"],
-                            ["days", "days"],
-                            ["weeks", "weeks"],
-                        ]),
+                        .addChoices({ name: "minutes", value: "minutes" }, { name: "hours", value: "hours" }, { name: "days", value: "days" }, { name: "weeks", value: "weeks" }),
                 )
                 .addIntegerOption((option) =>
                     option
@@ -72,12 +67,7 @@ module.exports = {
                         .setName("durationunit")
                         .setDescription("New of the specified duration")
                         .setRequired(false)
-                        .addChoices([
-                            ["minutes", "minutes"],
-                            ["hours", "hours"],
-                            ["days", "days"],
-                            ["weeks", "weeks"],
-                        ]),
+                        .addChoices({ name: "minutes", value: "minutes" }, { name: "hours", value: "hours" }, { name: "days", value: "days" }, { name: "weeks", value: "weeks" }),
                 )
                 .addIntegerOption((option) =>
                     option
@@ -109,7 +99,7 @@ module.exports = {
                 .setDescription("Lists all active giveaways and their id's on this server"),
         ),
     async execute({ interaction, storedGuild, language }) {
-        var embed = new EmbedBuilder();
+        let embed = new EmbedBuilder();
 
         if (!checkPermission("user", interaction.member, storedGuild)) {
             embed
@@ -139,7 +129,7 @@ module.exports = {
 };
 
 async function handleCreateSubcommand({ interaction, language }) {
-    var embed = new EmbedBuilder();
+    let embed = new EmbedBuilder();
     const guild = interaction.guild;
     const winnerAmount = validateIntegerAmount(interaction.options.getInteger("winners", true));
     const durationAmount = validateIntegerAmount(interaction.options.getInteger("duration", true));
@@ -159,7 +149,7 @@ async function handleCreateSubcommand({ interaction, language }) {
     }
 
     //calculate end date:
-    var obj = {};
+    let obj = {};
     obj[interaction.options.getString("durationunit", true)] = durationAmount;
     const endDate = DateTime.now().plus(Duration.fromObject(obj));
 
@@ -199,7 +189,7 @@ async function handleCreateSubcommand({ interaction, language }) {
 }
 
 async function handleModifySubcommand({ interaction, storedGuild, language }) {
-    var embed = new EmbedBuilder();
+    let embed = new EmbedBuilder();
     const giveawayId = getGiveawayId(interaction.options.getString("url_or_id", true));
 
     if (!giveawayId) {
@@ -223,10 +213,10 @@ async function handleModifySubcommand({ interaction, storedGuild, language }) {
         return;
     }
 
-    var endDate = undefined;
+    let endDate = undefined;
     if (modifiedDurationAmount && modifiedDurationUnit) {
         //calculate new end date:
-        var obj = {};
+        let obj = {};
         obj[modifiedDurationUnit] = modifiedDurationAmount;
         endDate = DateTime.now().plus(Duration.fromObject(obj));
     }
@@ -278,7 +268,7 @@ async function handleModifySubcommand({ interaction, storedGuild, language }) {
 }
 
 async function handleDeleteSubcommand({ interaction, language }) {
-    var embed = new EmbedBuilder();
+    let embed = new EmbedBuilder();
     const giveawayId = getGiveawayId(interaction.options.getString("url_or_id", true));
 
     if (!giveawayId) {
@@ -314,7 +304,7 @@ async function handleDeleteSubcommand({ interaction, language }) {
 
 async function handleListSubcommand({ interaction, language }) {
     const giveaways = getGiveawayList(interaction.guild);
-    var embed = new EmbedBuilder()
+    let embed = new EmbedBuilder()
         .setColor("#1CACE5")
         .setTitle(translate(language, "commands.giveaway.list.title"));
 
@@ -346,16 +336,13 @@ function validateIntegerAmount(integerAmount) {
 function getGiveawayId(string) {
     string.trim();
 
-    if (string.length > 18) {
+    if (parseInt(string) === NaN) {
         const result = parseDiscordMessageLink(string);
         if (result) {
             return result.messageId;
         }
         return undefined;
     } else {
-        if (parseInt(string) === NaN) {
-            return undefined;
-        }
         return string;
     }
 }

@@ -5,7 +5,7 @@ const { readDataSync, saveData } = require("../utility/dataHandler");
 const { translate } = require("../utility/translate");
 
 const filePath = "./data/reminders.json";
-var reminders = new Map();
+let reminders = new Map();
 
 function loadReminders() {
     reminders = readDataSync(filePath);
@@ -43,7 +43,7 @@ function getReminderList(user) {
 }
 
 function getReminder(reminderId) {
-    var storedReminder = reminders.get(reminderId);
+    let storedReminder = reminders.get(reminderId);
 
     //Throw error, if not existing
     if (!storedReminder) {
@@ -55,7 +55,7 @@ function getReminder(reminderId) {
 
 async function remind(reminder, bot) {
     const language = reminder.language;
-    var user = undefined;
+    let user = undefined;
 
     user = await bot.users.fetch(reminder.userId);
 

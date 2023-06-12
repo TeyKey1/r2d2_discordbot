@@ -1,6 +1,6 @@
 const { readDataSync, saveData } = require("../utility/dataHandler");
 const filePath = "./data/servers.json";
-var guilds = new Map();
+let guilds = new Map();
 
 function loadGuilds() {
     guilds = readDataSync(filePath);
@@ -44,7 +44,7 @@ function createGuild(guild) {
 }
 
 function getGuild(guild) {
-    var storedGuild = guilds.get(guild.id);
+    let storedGuild = guilds.get(guild.id);
 
     //Create guild if not existing in DB
     if (!storedGuild) {
@@ -55,7 +55,7 @@ function getGuild(guild) {
 }
 
 function getGuildById(guildId) {
-    var storedGuild = guilds.get(guildId);
+    let storedGuild = guilds.get(guildId);
 
     //Create guild if not existing in DB
     if (!storedGuild) {
@@ -69,7 +69,7 @@ function getGuildById(guildId) {
 * Check if Guild exists in Database. Returns the guild data if it exists
 */
 function exists(guild) {
-    var guildData = undefined;
+    let guildData = undefined;
 
     if (guilds.has(guild.id)) {
         guildData = guilds.get(guild.id);

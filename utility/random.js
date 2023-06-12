@@ -2,19 +2,19 @@ const RandomOrg = require("random-org");
 const config = require("config");
 const { giveaway } = require("../utility/logger");
 
-var random = new RandomOrg({ apiKey: config.get("randomOrgToken") });
+let random = new RandomOrg({ apiKey: config.get("randomOrgToken") });
 
 async function getWinners(participants, amount) {
     giveaway.info(`Starting to evaluate ${amount} winners out of participants: ${(() => {
-        var str = "";
+        let str = "";
         for (let i = 0; i < participants.length; i++) {
             str += `\nIndex: ${i} Participant: ${participants[i].username}`
         }
         return str;
     })()}`);
     const length = participants.length;
-    var winners = [];
-    var randomInts = [];
+    let winners = [];
+    let randomInts = [];
 
     try {
         //Generate truly random numbers:
@@ -25,7 +25,7 @@ async function getWinners(participants, amount) {
         giveaway.info("Falling back to pseudo randomness");
 
         //Pseudo random number backup in case API does not respond
-        for (var i = 0; i < amount; i++) {
+        for (let i = 0; i < amount; i++) {
             const randomInt = Math.floor(Math.random() * length);
             if (randomInts.includes(randomInt)) {
                 i--;

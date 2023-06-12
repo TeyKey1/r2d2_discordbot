@@ -96,7 +96,7 @@
       },
       "list": {
         "title": "Aktive Reminder:",
-        "empty": "Du hast momentan keine aktiven Reminder. Du kannst eine mit /reminder erstellen.",
+        "empty": "Du hast momentan keine aktiven Reminder. Du kannst einen mit /reminder erstellen.",
         "description": "Hier werden alle deine aktiven Reminder aufgelistet. Der Titel ist jeweils die ID des Reminders.",
         "end": "Erinnert dich am:",
         "reminderDescription": "Beschreibung:"

@@ -97,7 +97,7 @@ module.exports = {
 };
 
 async function handleAdminSubcommand({ interaction, storedGuild, language }) {
-	var embed = new EmbedBuilder();
+	let embed = new EmbedBuilder();
 	const role = interaction.options.getRole("role", true);
 
 	switch (interaction.options.getSubcommand()) {
@@ -141,7 +141,7 @@ async function handleAdminSubcommand({ interaction, storedGuild, language }) {
 }
 
 async function handleUserSubcommand({ interaction, storedGuild, language }) {
-	var embed = new EmbedBuilder();
+	let embed = new EmbedBuilder();
 	const role = interaction.options.getRole("role", true);
 
 	switch (interaction.options.getSubcommand()) {
@@ -187,7 +187,7 @@ async function handleUserSubcommand({ interaction, storedGuild, language }) {
 async function handleListSubcommand({ interaction, storedGuild, language }) {
 	switch (interaction.options.getSubcommand()) {
 		case "all":
-			var embed = new EmbedBuilder();
+			let embed = new EmbedBuilder();
 			embed
 				.setColor("#1CACE5")
 				.setTitle(translate(language, "commands.permissions.list.title"))
@@ -202,7 +202,7 @@ async function handleListSubcommand({ interaction, storedGuild, language }) {
 								return translate(language, "commands.permissions.list.adminRolesEmpty");
 							}
 
-							var str = "";
+							let str = "";
 							array.forEach(element => {
 								str += ":white_check_mark: :heavy_minus_sign: ";
 								str += `<@&${element}> \n`;
@@ -220,7 +220,7 @@ async function handleListSubcommand({ interaction, storedGuild, language }) {
 								return translate(language, "commands.permissions.list.userRolesEmpty");
 							}
 
-							var str = "";
+							let str = "";
 							array.forEach(element => {
 								str += ":white_check_mark: :heavy_minus_sign: ";
 								str += `<@&${element}> \n`;

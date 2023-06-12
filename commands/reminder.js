@@ -24,12 +24,7 @@ module.exports = {
                         .setName("durationunit")
                         .setDescription("Unit of the specified duration")
                         .setRequired(true)
-                        .addChoices([
-                            ["minutes", "minutes"],
-                            ["hours", "hours"],
-                            ["days", "days"],
-                            ["weeks", "weeks"],
-                        ]),
+                        .addChoices({ name: "minutes", value: "minutes" }, { name: "hours", value: "hours" }, { name: "days", value: "days" }, { name: "weeks", value: "weeks" }),
                 )
                 .addStringOption((option) =>
                     option
@@ -55,7 +50,7 @@ module.exports = {
                 .setDescription("Lists all of your reminders"),
         ),
     async execute({ interaction, storedGuild, language }) {
-        var embed = new EmbedBuilder();
+        let embed = new EmbedBuilder();
 
         if (!checkPermission("user", interaction.member, storedGuild)) {
             embed
@@ -82,7 +77,7 @@ module.exports = {
 };
 
 async function handleCreateSubcommand({ interaction, language }) {
-    var embed = new EmbedBuilder();
+    let embed = new EmbedBuilder();
     const durationAmount = validateIntegerAmount(interaction.options.getInteger("duration", true));
 
     if (!durationAmount) {
@@ -94,7 +89,7 @@ async function handleCreateSubcommand({ interaction, language }) {
     }
 
     //calculate end date:
-    var obj = {};
+    let obj = {};
     obj[interaction.options.getString("durationunit", true)] = durationAmount;
     const endDate = DateTime.now().plus(Duration.fromObject(obj));
 
@@ -115,7 +110,7 @@ async function handleCreateSubcommand({ interaction, language }) {
 }
 
 async function handleDeleteSubcommand({ interaction, language }) {
-    var embed = new EmbedBuilder();
+    let embed = new EmbedBuilder();
     const reminderId = getReminderId(interaction.options.getString("id", true));
 
     if (!reminderId) {
@@ -151,7 +146,7 @@ async function handleDeleteSubcommand({ interaction, language }) {
 
 async function handleListSubcommand({ interaction, language }) {
     const reminders = getReminderList(interaction.user);
-    var embed = new EmbedBuilder()
+    let embed = new EmbedBuilder()
         .setColor("#1CACE5")
         .setTitle(translate(language, "commands.reminder.list.title"));
 
@@ -166,7 +161,7 @@ async function handleListSubcommand({ interaction, language }) {
     reminders.forEach(reminder => {
         embed.addFields([
             {
-                name: reminder.id,
+                name: reminder.id.toString(),
                 value: `***${translate(language, "commands.reminder.list.end")}*** ${DateTime.fromISO(reminder.date).toFormat(`dd.MM.yyyy `) + translate(language, "reminder.dateConnector") + DateTime.fromISO(reminder.date).toFormat(` HH:mm`)}\n***${translate(language, "commands.reminder.list.reminderDescription")}*** ${reminder.description}`
             }
         ]);

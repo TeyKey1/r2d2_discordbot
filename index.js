@@ -1,5 +1,5 @@
 const config = require('config');
-const { Client, Intents, Options, LimitedCollection, Partials } = require('discord.js');
+const { Client, IntentsBitField, Options, Partials } = require('discord.js');
 const { logger } = require("./utility/logger");
 const { loadGuilds, createGuild, deleteGuild } = require("./guild/guildmanager");
 const { loadGiveaways } = require("./giveaway/giveawaymanager");
@@ -13,18 +13,23 @@ const { scheduleGiveaways, scheduleReminders } = require("./utility/scheduler");
 
 const bot = new Client({
     makeCache: Options.cacheWithLimits({
-        MessageManager: 70,
-        ThreadManager: {
-            sweepInterval: 3600,
-            sweepFilter: LimitedCollection.filterByLifetime({
-                getComparisonTimestamp: e => e.archiveTimestamp,
-                excludeFromSweep: e => !e.archived,
-            })
-        }
+        MessageManager: 50,
+        UserManager: 100,
     }),
+    sweepers: {
+        ...Options.DefaultSweeperSettings,
+        messages: {
+            interval: 3600,
+            lifetime: 1800,
+        },
+        users: {
+            interval: 3600,
+            filter: () => user => user.bot && user.id !== client.user.id, // Remove all bots.
+        },
+    },
     retryLimit: 0,
     partials: [Partials.Message, Partials.Reaction],
-    intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MESSAGE_REACTIONS]
+    intents: [IntentsBitField.Flags.Guilds, IntentsBitField.Flags.GuildMessages, IntentsBitField.Flags.GuildMessageReactions]
 });
 
 //Initialization & Login
@@ -139,3 +144,6 @@ process.on('unhandledRejection', function (reason, p) {
     console.log("Possibly Unhandled Rejection at: Promise ", p, " reason: ", reason);
     // application specific logging here
 });
+
+// Monkey patch bigint to be serializable
+BigInt.prototype.toJSON = function () { return this.toString() };

@@ -4,7 +4,7 @@ function parseDurationToDate(string) {
     const identifier = string.slice(-1);
     const duration = parseInt(string.slice(0, -1).trim());
 
-    var endDate = DateTime.now();
+    let endDate = DateTime.now();
     switch (identifier) {
         case "m":
             endDate.plus({ minutes: duration });
@@ -33,7 +33,7 @@ function parseDiscordMessageLink(link) {
         }
 
         return { guildId, channelId, messageId };
-    } else if(link.substring(0, 32).toLowerCase() === "https://discordapp.com/channels/"){
+    } else if (link.substring(0, 32).toLowerCase() === "https://discordapp.com/channels/") {
         const guildId = link.substring(32, 50);
         const channelId = link.substring(51, 69);
         const messageId = link.substring(70);
@@ -43,7 +43,7 @@ function parseDiscordMessageLink(link) {
         }
 
         return { guildId, channelId, messageId };
-    }else{
+    } else {
         return undefined;
     }
 }

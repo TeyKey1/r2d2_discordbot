@@ -7,7 +7,7 @@ module.exports = {
         .setName("about")
         .setDescription("Shows R2D2 about page"),
     async execute({ interaction, storedGuild, language }) {
-        var embed = new EmbedBuilder();
+        let embed = new EmbedBuilder();
 
         if (!checkPermission("user", interaction.member, storedGuild)) {
             embed

@@ -3,7 +3,7 @@ const en = require("../locales/en.json");
 const _ = require("lodash");
 
 function translate(lang, string) {
-  var locale = "";
+  let locale = "";
 
   switch (lang) {
     case "en":

@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
+const { SlashCommandBuilder, EmbedBuilder, userMention } = require("discord.js");
 const { giveaway } = require("../utility/logger");
 const { checkPermission } = require("../guild/permissionmanager");
 const { translate } = require("../utility/translate");
@@ -21,7 +21,7 @@ module.exports = {
                 .setRequired(false)
         }),
     async execute({ interaction, storedGuild, language }) {
-        var embed = new EmbedBuilder();
+        let embed = new EmbedBuilder();
 
         if (!checkPermission("user", interaction.member, storedGuild)) {
             embed
@@ -52,15 +52,18 @@ module.exports = {
         giveaway.info("Starting randomChoose: ")
         const winners = await getWinners(participants, winnerAmount);
 
+        console.log(winners)
+
         embed
             .setColor("#1CACE5")
             .setTitle(translate(language, "commands.randomChoose.title"))
             .setDescription("```ml\n" + translate(language, "commands.randomChoose.description") + winnerAmount + "```")
-            .setFooter(translate(language, "commands.randomChoose.footer") + participants.length);
+            .setFooter({ text: translate(language, "commands.randomChoose.footer") + participants.length });
 
         const winnerEmbed = new EmbedBuilder()
             .setColor("#edc531")
-            .setTitle(translate(language, "commands.randomChoose.winner") + winners.join(", "));
+            .setTitle(translate(language, "commands.randomChoose.winner"))
+            .setDescription(winners.map((e) => e.username).join(", "));
 
         await interaction.reply({ embeds: [embed, winnerEmbed] });
     },

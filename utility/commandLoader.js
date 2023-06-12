@@ -7,8 +7,8 @@ const rest = new REST({ version: "9" }).setToken(config.get("token"));
 const isProduction = process.env.NODE_ENV === "production" ? true : false;
 
 async function loadCommands(bot) {
-    var commands = new Collection();
-    var apiCommandArray = [];
+    let commands = new Collection();
+    let apiCommandArray = [];
 
     const commandFiles = fs.readdirSync("./commands").filter(file => file.endsWith(".js"));
 

@@ -7,7 +7,7 @@ const { getWinners } = require("../utility/random");
 const { giveaway: logger } = require("../utility/logger");
 
 const filePath = "./data/giveaways.json";
-var giveaways = new Map();
+let giveaways = new Map();
 
 function loadGiveaways() {
     giveaways = readDataSync(filePath);
@@ -77,7 +77,7 @@ async function createGiveaway(giveaway, guild, language) {
 }
 
 function getGiveaway(giveawayId) {
-    var storedGiveaway = giveaways.get(giveawayId);
+    let storedGiveaway = giveaways.get(giveawayId);
 
     //Throw error, if not existing
     if (!storedGiveaway) {
@@ -94,7 +94,7 @@ function getGiveawayList(guild) {
 
 async function endGiveaway(giveawayId, bot) {
     const giveaway = getGiveaway(giveawayId);
-    var storedGuild = undefined;
+    let storedGuild = undefined;
 
     try {
         storedGuild = getGuildById(giveaway.guild);
@@ -110,24 +110,22 @@ async function endGiveaway(giveawayId, bot) {
     const channel = await guild.channels.resolve(giveaway.channel);
     const message = await channel.messages.fetch(giveaway.id);
 
-    //determine winner:
-    const reactions = message.reactions.cache;
-    var participants = [];
-    reactions.forEach(async e => {
-        if (e.emoji.toString() === "🎁") {
-            const users = await e.users.fetch();
-            users.forEach(user => {
-                if (user.bot) {
-                    return;
-                }
-                participants.push({ username: user.username, id: user.id });
-            });
-        }
+    const reaction = await message.reactions.resolve("🎁").fetch();
+    const reactionUsers = await reaction.users.fetch();
+
+
+    let participants = [];
+
+    reactionUsers.forEach((user) => {
+        if (user.bot) return;
+
+        participants.push({ username: user.username, id: user.id });
     });
 
     await message.reactions.removeAll();
 
-    var winners = undefined;
+    let winners = undefined;
+
     logger.info(`Ending Giveaway id: ${giveaway.id}...`);
     if (participants.length == 0) {
         //failed to end giveaway
@@ -185,7 +183,7 @@ async function checkGiveaway(bot) {
 * Check if Giveaway exists in Database. Returns the giveaway data if it exists
 */
 function exists(giveawayId) {
-    var giveawayData = undefined;
+    let giveawayData = undefined;
 
     if (giveaways.has(giveawayId)) {
         giveawayData = giveaways.get(giveawayId);
@@ -198,7 +196,7 @@ function createEmbedGiveaway(giveaway, language) {
     return new EmbedBuilder()
         .setColor("#fc6203")
         .setDescription(translate(language, "giveaway.create.prize") + giveaway.prize + "\n\n" + translate(language, "giveaway.create.reactDate") + DateTime.fromISO(giveaway.endDate).toFormat(`dd.MM.yyyy `) + translate(language, "giveaway.create.dateConnector") + DateTime.fromISO(giveaway.endDate).toFormat(` HH:mm`))
-        .setFooter(translate(language, "giveaway.create.winnerAmount") + giveaway.winners);
+        .setFooter({ text: translate(language, "giveaway.create.winnerAmount") + giveaway.winners });
 }
 
 function createEmbedWinner(giveaway, winners, language) {

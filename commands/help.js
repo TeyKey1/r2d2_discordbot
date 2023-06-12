@@ -7,7 +7,7 @@ module.exports = {
         .setName("help")
         .setDescription("Displays the help page of the bot"),
     async execute({ interaction, storedGuild }) {
-        var embed = new EmbedBuilder();
+        let embed = new EmbedBuilder();
 
         if (checkPermission("admin", interaction.member, storedGuild)) {
             embed

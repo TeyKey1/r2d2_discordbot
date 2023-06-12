@@ -10,7 +10,7 @@ function saveData(data, filePath) {
 }
 
 function readDataSync(filePath) {
-    var data = new Map();
+    let data = new Map();
 
     if (fs.existsSync(filePath)) {
         const json = fs.readFileSync(filePath, "utf-8");

@@ -4,7 +4,7 @@ const { getGuild, modifyGuild } = require("../guild/guildmanager");
 *   Checks if permission of user is sufficient to run command
 */
 function checkPermission(level, guildMember, storedGuild) {
-    var allowedRoles = [];
+    let allowedRoles = [];
 
     //Bypass if user is Admin/Owner of Guild
     if (guildMember.permissions.has("ADMINISTRATOR", true)) {
@@ -35,7 +35,7 @@ function checkPermission(level, guildMember, storedGuild) {
 }
 
 function deleteRole(role) {
-    var storedGuild = getGuild(role.guild);
+    let storedGuild = getGuild(role.guild);
 
     if (storedGuild.userRoles.includes(role.id)) {
         storedGuild.userRoles.splice(storedGuild.userRoles.indexOf(role.id), 1);

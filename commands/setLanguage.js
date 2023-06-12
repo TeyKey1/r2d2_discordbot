@@ -11,14 +11,11 @@ module.exports = {
             return option
                 .setName("language")
                 .setDescription("Language to set")
-                .addChoices([
-                    ["English", "en"],
-                    ["Deutsch", "de"]
-                ])
+                .addChoices({ name: "English", value: "en" }, { name: "Deutsch", value: "de" })
                 .setRequired(true)
         }),
     async execute({ interaction, storedGuild }) {
-        var embed = new EmbedBuilder();
+        let embed = new EmbedBuilder();
 
         if (!checkPermission("admin", interaction.member, storedGuild)) {
             embed

@@ -2,7 +2,7 @@ const { createLogger, format, transports } = require("winston");
 const { colorize, label, printf, timestamp } = format;
 
 //Bot logger
-var transportList = [
+let transportList = [
     new transports.File({
         level: "warn",
         filename: "logs/bot.log",
@@ -49,7 +49,7 @@ const botLogger = createLogger({
 module.exports.logger = botLogger;
 
 //Giveaway logger
-var transportListGiveaway = [
+let transportListGiveaway = [
     new transports.File({
         level: "info",
         filename: "logs/giveaway.log",
