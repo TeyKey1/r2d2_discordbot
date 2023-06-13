@@ -108,7 +108,20 @@ async function endGiveaway(giveawayId, bot) {
     const guild = await bot.guilds.resolve(giveaway.guild);
     const reminderChannel = await guild.channels.resolve(giveaway.reminderChannel);
     const channel = await guild.channels.resolve(giveaway.channel);
-    const message = await channel.messages.fetch(giveaway.id);
+
+    let message;
+    try {
+        message = await channel.messages.fetch(giveaway.id);
+    } catch (err) {
+        if (err.code === 10008) {
+            // Message deleted
+            giveaways.delete(giveawayId);
+            saveData(giveaways, filePath);
+            return;
+        }
+
+        throw err;
+    }
 
     const reaction = await message.reactions.resolve("🎁").fetch();
     const reactionUsers = await reaction.users.fetch();
