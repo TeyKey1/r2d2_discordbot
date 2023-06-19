@@ -24,7 +24,7 @@ const bot = new Client({
         },
         users: {
             interval: 3600,
-            filter: () => user => user.bot && user.id !== client.user.id, // Remove all bots.
+            filter: () => user => user.bot && user.id !== bot.user.id, // Remove all bots.
         },
     },
     retryLimit: 0,
